@@ -54,9 +54,12 @@ function validExpirationMinutes(expirationMinutes) {
 async function validVideo(video) {
   try {
     let info = await ffprobe(video.path, { path: '/usr/bin/ffprobe' });
-    // todo: Go through all the streams and make sure there's a video stream!
-    console.log(info.streams);
-    return true;
+    for (let stream of info.streams) {
+      if (stream.codec_type === 'video' && stream.avg_frame_rate !== '0/0') {
+        return true;
+      }
+    }
+    return false;
   } catch(error) {
     return false;
   }
