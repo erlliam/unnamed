@@ -9,10 +9,10 @@ app.listen(8001);
 
 app.post('/upload', async (req, res, next) => {
   try {
-    let expirationMinutesAndVideo = await parseRequestForExpirationMinutesAndVideo(req);
-    if (expirationMinutesAndVideo.expirationMinutes === null) {
+    let formData = await parseFormData(req);
+    if (!validExpirationMinutes(formData.fields.expirationMinutes)) {
       res.send('Invalid expiration minutes.').status(400);
-    } else if (expirationMinutesAndVideo.video === null) {
+    } else if (!(await validVideo(formData.files.video))) {
       res.send('Invalid video.').status(400);
     } else {
       res.send('Video is valid. Implement the rest of the crap.');
@@ -22,25 +22,16 @@ app.post('/upload', async (req, res, next) => {
   }
 });
 
-function parseRequestForExpirationMinutesAndVideo(req) {
+function parseFormData(req) {
   return new Promise((resolve, reject) => {
     let form = formidable();
-    form.parse(req, async (error, fields, files) => {
+    form.parse(req, (error, fields, files) => {
       if (error) {
         reject(error);
       } else {
-        let expirationMinutes = fields.expirationMinutes;
-        let video = files.video;
-        if (!validExpirationMinutes(expirationMinutes)) {
-          expirationMinutes = null;
-        }
-        if (!(await validVideo(video))) {
-          video = null;
-        }
-
         resolve({
-          expirationMinutes: expirationMinutes,
-          video: video
+          fields: fields,
+          files: files
         });
       }
     });
