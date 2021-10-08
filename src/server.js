@@ -11,9 +11,9 @@ app.post('/upload', async (req, res, next) => {
   try {
     let formData = await parseFormData(req);
     if (!validExpirationMinutes(formData.fields.expirationMinutes)) {
-      res.send('Invalid expiration minutes.').status(400);
+      res.status(400).send('Invalid expiration minutes.');
     } else if (!(await validVideo(formData.files.video))) {
-      res.send('Invalid video.').status(400);
+      res.status(400).send('Invalid video.');
     } else {
       res.send('Video is valid. Implement the rest of the crap.');
     }
