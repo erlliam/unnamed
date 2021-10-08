@@ -2,6 +2,7 @@ let express = require('express');
 let path = require('path');
 let formidable = require('formidable');
 let ffprobe = require('ffprobe');
+let fs = require('fs');
 
 let app = express();
 app.use(express.static('public'));
@@ -11,8 +12,10 @@ app.post('/upload', async (req, res, next) => {
   try {
     let formData = await parseFormData(req);
     if (!validExpirationMinutes(formData.fields.expirationMinutes)) {
+      await cleanUpVideoFromFormData(formData);
       res.status(400).send('Invalid expiration minutes.');
     } else if (!(await validVideo(formData.files.video))) {
+      await cleanUpVideoFromFormData(formData);
       res.status(400).send('Invalid video.');
     } else {
       res.send('Video is valid. Implement the rest of the crap.');
@@ -36,6 +39,13 @@ function parseFormData(req) {
       }
     });
   });
+}
+
+async function cleanUpVideoFromFormData(formData) {
+  let video = formData.files.video
+  if (video) {
+    await fs.promises.unlink(video.path);
+  }
 }
 
 function validExpirationMinutes(expirationMinutes) {
