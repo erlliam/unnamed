@@ -15,3 +15,7 @@ Run development server:
 Format code:
 
     npm run format
+
+Test code:
+
+    npm test
