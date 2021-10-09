@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "author": "Erlliam Mejia",
   "scripts": {
-    "dev": "nodemon src/server.js"
+    "dev": "nodemon src/server.js",
+    "format": "npx prettier --write ."
   },
   "dependencies": {
     "express": "^4.17.1",
@@ -11,6 +12,7 @@
     "formidable": "^1.2.2"
   },
   "devDependencies": {
-    "nodemon": "^2.0.13"
+    "nodemon": "^2.0.13",
+    "prettier": "2.4.1"
   }
 }

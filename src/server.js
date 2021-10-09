@@ -1,26 +1,26 @@
-let express = require('express');
-let path = require('path');
-let formidable = require('formidable');
-let ffprobe = require('ffprobe');
-let fs = require('fs');
+let express = require("express");
+let path = require("path");
+let formidable = require("formidable");
+let ffprobe = require("ffprobe");
+let fs = require("fs");
 
 let app = express();
-app.use(express.static('public'));
+app.use(express.static("public"));
 app.listen(8001);
 
-app.post('/upload', async (req, res, next) => {
+app.post("/upload", async (req, res, next) => {
   try {
     let formData = await parseFormData(req);
     if (!validExpirationMinutes(formData.fields.expirationMinutes)) {
       await cleanUpVideoFromFormData(formData);
-      res.status(400).send('Invalid expiration minutes.');
+      res.status(400).send("Invalid expiration minutes.");
     } else if (!(await validVideo(formData.files.video))) {
       await cleanUpVideoFromFormData(formData);
-      res.status(400).send('Invalid video.');
+      res.status(400).send("Invalid video.");
     } else {
-      res.send('Video is valid. Implement the rest of the crap.');
+      res.send("Video is valid. Implement the rest of the crap.");
     }
-  } catch(error) {
+  } catch (error) {
     next(error);
   }
 });
@@ -34,7 +34,7 @@ function parseFormData(req) {
       } else {
         resolve({
           fields: fields,
-          files: files
+          files: files,
         });
       }
     });
@@ -42,7 +42,7 @@ function parseFormData(req) {
 }
 
 async function cleanUpVideoFromFormData(formData) {
-  let video = formData.files.video
+  let video = formData.files.video;
   if (video) {
     await fs.promises.unlink(video.path);
   }
@@ -63,14 +63,14 @@ function validExpirationMinutes(expirationMinutes) {
 
 async function validVideo(video) {
   try {
-    let info = await ffprobe(video.path, { path: '/usr/bin/ffprobe' });
+    let info = await ffprobe(video.path, { path: "/usr/bin/ffprobe" });
     for (let stream of info.streams) {
-      if (stream.codec_type === 'video' && stream.avg_frame_rate !== '0/0') {
+      if (stream.codec_type === "video" && stream.avg_frame_rate !== "0/0") {
         return true;
       }
     }
     return false;
-  } catch(error) {
+  } catch (error) {
     return false;
   }
 }
