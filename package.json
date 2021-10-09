@@ -4,7 +4,7 @@
   "author": "Erlliam Mejia",
   "scripts": {
     "dev": "nodemon src/dev.js",
-    "format": "npx prettier --write .",
+    "format": "prettier --write .",
     "test": "jest"
   },
   "dependencies": {
