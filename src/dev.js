@@ -1,4 +1,4 @@
 let { createApp } = require("./server");
 
-let app = createApp()
+let app = createApp();
 app.listen(8001);

@@ -80,5 +80,6 @@ async function validVideo(video) {
 
 module.exports = {
   ...module.exports,
-  createApp
+  createApp,
+  validExpirationMinutes,
 };
