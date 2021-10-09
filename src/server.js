@@ -14,7 +14,7 @@ function createApp() {
       if (!validExpirationMinutes(formData.fields.expirationMinutes)) {
         await cleanUpVideoFromFormData(formData);
         res.status(400).send("Invalid expiration minutes.");
-      } else if (!(await validVideo(formData.files.video))) {
+      } else if (!(await validVideo(formData.files.video.path))) {
         await cleanUpVideoFromFormData(formData);
         res.status(400).send("Invalid video.");
       } else {
@@ -53,10 +53,6 @@ async function cleanUpVideoFromFormData(formData) {
 
 function validExpirationMinutes(expirationMinutes) {
   expirationMinutes = parseInt(expirationMinutes, 10);
-  if (isNaN(expirationMinutes)) {
-    return false;
-  }
-
   if (expirationMinutes === 10 || expirationMinutes === 30) {
     return true;
   }
@@ -64,9 +60,9 @@ function validExpirationMinutes(expirationMinutes) {
   return false;
 }
 
-async function validVideo(video) {
+async function validVideo(videoPath) {
   try {
-    let info = await ffprobe(video.path, { path: "/usr/bin/ffprobe" });
+    let info = await ffprobe(videoPath, { path: "/usr/bin/ffprobe" });
     for (let stream of info.streams) {
       if (stream.codec_type === "video" && stream.avg_frame_rate !== "0/0") {
         return true;
@@ -82,4 +78,5 @@ module.exports = {
   ...module.exports,
   createApp,
   validExpirationMinutes,
+  validVideo,
 };
