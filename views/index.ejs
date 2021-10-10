@@ -1,28 +1,16 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <h1><a href="/">unnamed</a></h1>
-    <p>unnamed allows you to share videos which expire.</p>
+<%- include("top"); -%>
 
-    <p>
-      Select a video and press upload. You will be given a link you can share
-      with others.
-    </p>
-    <p>
-      Links automatically expire. Once a link expires, the video is deleted.
-    </p>
+<p>Select a video and press upload. You will be given a link you can share with others.</p>
+<p>Links automatically expire. Once a link expires, the video is deleted.</p>
 
-    <form action="/upload" method="POST" enctype="multipart/form-data">
-      <input type="file" name="video" required />
-      <label for="link-expiration">Link expiration</label>
-      <select id="link-expiration" name="expirationMinutes">
-        <option value="10">10 Minutes</option>
-        <option value="30">30 Minutes</option>
-      </select>
-      <button>Upload</button>
-    </form>
-  </body>
-</html>
+<form action="/upload" method="POST" enctype="multipart/form-data">
+  <input type="file" name="video" required />
+  <label for="link-expiration">Link expiration</label>
+  <select id="link-expiration" name="expirationMinutes">
+    <option value="10">10 Minutes</option>
+    <option value="30">30 Minutes</option>
+  </select>
+  <button>Upload</button>
+</form>
+
+<%- include("bottom"); -%>

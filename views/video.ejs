@@ -1,16 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-  </head>
-  <body>
-    <h1><a href="/">unnamed</a></h1>
-    <p>unnamed allows you to share videos which expire.</p>
+<%- include("top"); -%>
 
-    <video
-      controls
-      width="640"
-      src="/video/<%= videoName %>"
-    ></video>
-  </body>
-</html>
+<video
+  controls
+  width="640"
+  src="/video/<%= videoName %>"
+></video>
+
+<%- include("bottom"); -%>
