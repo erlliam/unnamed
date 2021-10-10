@@ -3,7 +3,7 @@ let formidable = require("formidable");
 let ffprobe = require("ffprobe");
 let fs = require("fs/promises");
 let path = require("path");
-let { videoDirectory } = require("../config.json");
+let { videoDirectory, ffprobePath } = require("../config.json");
 
 let router = express.Router();
 
@@ -63,7 +63,7 @@ function validExpirationMinutes(expirationMinutes) {
 async function validVideo(video) {
   try {
     if (video) {
-      let info = await ffprobe(video.path, { path: "/usr/bin/ffprobe" });
+      let info = await ffprobe(video.path, { path: ffprobePath });
       for (let stream of info.streams) {
         if (stream.codec_type === "video" && stream.avg_frame_rate !== "0/0") {
           return true;

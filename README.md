@@ -12,7 +12,8 @@ Create config.json:
 
 ```
 {
-  "videoDirectory": "/home/mint/Videos/unnamed"
+  "videoDirectory": "/home/mint/Videos/unnamed",
+  "ffprobePath": "/usr/bin/ffprobe"
 }
 ```
 
