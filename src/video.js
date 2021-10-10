@@ -9,23 +9,9 @@ router.get("/:videoName", async (req, res, next) => {
   try {
     let videoName = req.params.videoName;
     if (await videoExists(videoName)) {
-      res.send(`
-  <!DOCTYPE html>
-  <html lang="en">
-    <head>
-      <meta charset="utf-8" />
-    </head>
-    <body>
-      <h1>unnamed</h1>
-      <video
-        controls
-        width="640"
-        src="/video/${req.params.videoName}"
-      ></video>
-    </body>
-  </html>`);
+      res.render("video", { videoName: videoName });
     } else {
-      res.sendStatus(404);
+      res.status(404).render("text", { texts: ["Video not found."] });
     }
   } catch (error) {
     next(error);
@@ -38,7 +24,7 @@ router.get("/video/:videoName", async (req, res, next) => {
     if (await videoExists(videoName)) {
       res.sendFile(req.params.videoName, { root: videoDirectory });
     } else {
-      res.sendStatus(404);
+      res.status(404).render("text", { texts: ["Video not found."] });
     }
   } catch (error) {
     next(error);

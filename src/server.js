@@ -4,9 +4,14 @@ let { router: videoRouter } = require("./video.js");
 
 function createApp() {
   let app = express();
+  app.set("view engine", "ejs");
   app.use(express.static("public"));
   app.use(uploadRouter);
   app.use(videoRouter);
+
+  app.get("/", (req, res) => {
+    res.render("index");
+  });
 
   return app;
 }

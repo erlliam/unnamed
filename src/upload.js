@@ -14,10 +14,12 @@ router.post("/upload", async (req, res, next) => {
     let video = formData.files.video;
     if (!validExpirationMinutes(expirationMinutes)) {
       await cleanUpVideo(video);
-      res.status(400).send("Invalid expiration minutes.");
+      res
+        .status(400)
+        .render("text", { texts: ["Invalid expiration minutes."] });
     } else if (!(await validVideo(video))) {
       await cleanUpVideo(video);
-      res.status(400).send("Invalid video.");
+      res.status(400).render("text", { texts: ["Invalid video."] });
     } else {
       await moveToVideoDirectory(video);
       res.redirect(path.basename(video.path));
