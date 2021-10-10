@@ -1,8 +1,7 @@
 let express = require("express");
 let fs = require("fs/promises");
 let path = require("path");
-
-let videoDirectory = '/home/mint/Videos/unnamed/';
+let { videoDirectory } = require("../config.json");
 
 let router = express.Router();
 

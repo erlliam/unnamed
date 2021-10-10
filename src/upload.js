@@ -3,8 +3,7 @@ let formidable = require("formidable");
 let ffprobe = require("ffprobe");
 let fs = require("fs/promises");
 let path = require("path");
-
-let videoDirectory = '/home/mint/Videos/unnamed/';
+let { videoDirectory } = require("../config.json");
 
 let router = express.Router();
 
