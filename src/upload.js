@@ -21,7 +21,7 @@ router.post("/upload", async (req, res, next) => {
       res.status(400).send("Invalid video.");
     } else {
       await moveToVideoDirectory(video);
-      res.send("Video is valid. Implement the rest of the crap.");
+      res.redirect(path.basename(video.path));
     }
   } catch (error) {
     next(error);
