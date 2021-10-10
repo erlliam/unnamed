@@ -1,7 +1,10 @@
 let express = require("express");
 let formidable = require("formidable");
 let ffprobe = require("ffprobe");
-let fs = require("fs");
+let fs = require("fs/promises");
+let path = require("path");
+
+let videoDirectory = '/home/mint/Videos/unnamed/';
 
 let router = express.Router();
 
@@ -17,6 +20,7 @@ router.post("/upload", async (req, res, next) => {
       await cleanUpVideo(video);
       res.status(400).send("Invalid video.");
     } else {
+      await moveToVideoDirectory(video);
       res.send("Video is valid. Implement the rest of the crap.");
     }
   } catch (error) {
@@ -42,7 +46,7 @@ function parseFormData(req) {
 
 async function cleanUpVideo(video) {
   if (video) {
-    await fs.promises.unlink(video.path);
+    await fs.unlink(video.path);
   }
 }
 
@@ -68,6 +72,18 @@ async function validVideo(video) {
     return false;
   } catch (error) {
     return false;
+  }
+}
+
+async function moveToVideoDirectory(video) {
+  try {
+    let fileName = path.basename(video.path);
+    let newPath = path.join(videoDirectory, fileName);
+    await fs.mkdir(videoDirectory, { recursive: true });
+    await fs.rename(video.path, newPath);
+  } catch (error) {
+    console.error('error: failed to move video into the video directory');
+    throw error;
   }
 }
 
