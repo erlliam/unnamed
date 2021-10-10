@@ -8,6 +8,14 @@ Install dependencies:
 
     npm install
 
+Create config.json:
+
+```
+{
+  "videoDirectory": "/home/mint/Videos/unnamed"
+}
+```
+
 Run development server:
 
     npm run dev
