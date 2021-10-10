@@ -81,7 +81,7 @@ async function moveToVideoDirectory(video) {
     await fs.mkdir(videoDirectory, { recursive: true });
     await fs.rename(video.path, newPath);
   } catch (error) {
-    console.error('error: failed to move video into the video directory');
+    console.error("error: failed to move video into the video directory");
     throw error;
   }
 }

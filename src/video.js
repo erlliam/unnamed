@@ -23,8 +23,7 @@ router.get("/:videoName", async (req, res, next) => {
         src="/video/${req.params.videoName}"
       ></video>
     </body>
-  </html>`
-      );
+  </html>`);
     } else {
       res.sendStatus(404);
     }
