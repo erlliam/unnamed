@@ -15,11 +15,11 @@ describe("validExpirationMinutes", () => {
 
 describe("validVideo", () => {
   test.each([
-    ["test/2021-08-30 23-40-37.mkv", true],
-    ["test/SampleVideo_1280x720_30mb.mp4", true],
-    ["/", false],
-    ["~", false],
-    ["test/bezos.png", false],
+    [{ path: "test/2021-08-30 23-40-37.mkv" }, true],
+    [{ path: "test/SampleVideo_1280x720_30mb.mp4" }, true],
+    [{ path: "/" }, false],
+    [{ path: "~" }, false],
+    [{ path: "test/bezos.png" }, false],
     [undefined, false],
   ])("%p returns %p", (path, expected) => {
     return validVideo(path).then((result) => {

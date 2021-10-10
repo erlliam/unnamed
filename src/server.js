@@ -11,11 +11,13 @@ function createApp() {
   app.post("/upload", async (req, res, next) => {
     try {
       let formData = await parseFormData(req);
-      if (!validExpirationMinutes(formData.fields.expirationMinutes)) {
-        await cleanUpVideoFromFormData(formData);
+      let expirationMinutes = formData.fields.expirationMinutes;
+      let video = formData.files.video;
+      if (!validExpirationMinutes(expirationMinutes)) {
+        await cleanUpVideo(video);
         res.status(400).send("Invalid expiration minutes.");
-      } else if (!(await validVideo(formData.files.video.path))) {
-        await cleanUpVideoFromFormData(formData);
+      } else if (!(await validVideo(video))) {
+        await cleanUpVideo(video);
         res.status(400).send("Invalid video.");
       } else {
         res.send("Video is valid. Implement the rest of the crap.");
@@ -44,8 +46,7 @@ function parseFormData(req) {
   });
 }
 
-async function cleanUpVideoFromFormData(formData) {
-  let video = formData.files.video;
+async function cleanUpVideo(video) {
   if (video) {
     await fs.promises.unlink(video.path);
   }
@@ -60,12 +61,14 @@ function validExpirationMinutes(expirationMinutes) {
   return false;
 }
 
-async function validVideo(videoPath) {
+async function validVideo(video) {
   try {
-    let info = await ffprobe(videoPath, { path: "/usr/bin/ffprobe" });
-    for (let stream of info.streams) {
-      if (stream.codec_type === "video" && stream.avg_frame_rate !== "0/0") {
-        return true;
+    if (video) {
+      let info = await ffprobe(video.path, { path: "/usr/bin/ffprobe" });
+      for (let stream of info.streams) {
+        if (stream.codec_type === "video" && stream.avg_frame_rate !== "0/0") {
+          return true;
+        }
       }
     }
     return false;
