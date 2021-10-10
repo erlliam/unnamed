@@ -1,4 +1,4 @@
-let { validExpirationMinutes, validVideo } = require("../src/server");
+let { validExpirationMinutes, validVideo } = require("../src/upload");
 
 describe("validExpirationMinutes", () => {
   test.each([
