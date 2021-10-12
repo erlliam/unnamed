@@ -23,7 +23,7 @@ function storeVideo({ id, filename, expirationMinutes, created }) {
     id: id,
     filename: filename,
     expirationMinutes: expirationMinutes,
-    created: created
+    created: created,
   });
 }
 
@@ -50,15 +50,21 @@ function getFilename(id) {
 }
 
 function deleteFromVideo(id) {
-  db.prepare(`
+  db.prepare(
+    `
     DELETE FROM video WHERE id = :id
-  `).run({ id: id });
+  `
+  ).run({ id: id });
 }
 
 function getAllVideos() {
-  return db.prepare(`
+  return db
+    .prepare(
+      `
     SELECT * FROM video
-  `).all();
+  `
+    )
+    .all();
 }
 
 module.exports = {
@@ -67,5 +73,5 @@ module.exports = {
   videoIdExists,
   getFilename,
   deleteFromVideo,
-  getAllVideos
+  getAllVideos,
 };

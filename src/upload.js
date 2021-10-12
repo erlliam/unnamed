@@ -31,7 +31,7 @@ router.post("/upload", async (req, res, next) => {
         id: videoId,
         filename: path.basename(video.path),
         expirationMinutes: expirationMinutes,
-        created: Date.now()
+        created: Date.now(),
       });
       scheduleVideoForDeletion(videoId, created, expirationMinutes);
       res.redirect(videoId);

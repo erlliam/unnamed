@@ -11,9 +11,11 @@ async function deleteVideo(videoId) {
 
 function scheduleVideoForDeletion(videoId, created, minutesFromNow) {
   let createdDate = new Date(created);
-  let expirationTimestamp = createdDate.getTime() + (minutesFromNow * 60 * 1000);
+  let expirationTimestamp = createdDate.getTime() + minutesFromNow * 60 * 1000;
   let timeoutMs = expirationTimestamp - Date.now();
-  setTimeout(() => { deleteVideo(videoId) }, timeoutMs);
+  setTimeout(() => {
+    deleteVideo(videoId);
+  }, timeoutMs);
 }
 
 function scheduleVideosForDeletion() {
@@ -25,5 +27,5 @@ function scheduleVideosForDeletion() {
 module.exports = {
   ...module.exports,
   scheduleVideoForDeletion,
-  scheduleVideosForDeletion
-}
+  scheduleVideosForDeletion,
+};
