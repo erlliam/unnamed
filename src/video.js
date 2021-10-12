@@ -12,7 +12,7 @@ router.get("/:videoId", async (req, res, next) => {
     if (videoIdExists(videoId)) {
       res.render("video", { videoId: videoId });
     } else {
-      res.status(404).render("text", { texts: ["Video not found."] });
+      next();
     }
   } catch (error) {
     next(error);
@@ -26,7 +26,7 @@ router.get("/video/:videoId", async (req, res, next) => {
     if (await videoExists(filename)) {
       res.sendFile(filename, { root: videoDirectory });
     } else {
-      res.status(404).render("text", { texts: ["Video not found."] });
+      next();
     }
   } catch (error) {
     next(error);

@@ -13,6 +13,10 @@ function createApp() {
     res.render("index");
   });
 
+  app.get("*", (req, res) => {
+    res.status(404).render("text", { texts: ["Page not found."] });
+  });
+
   return app;
 }
 
