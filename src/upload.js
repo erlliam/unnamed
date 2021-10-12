@@ -5,6 +5,7 @@ let fs = require("fs/promises");
 let path = require("path");
 let { videoDirectory, ffprobePath } = require("../config.json");
 let { storeVideo, videoIdExists } = require("./database.js");
+let { scheduleVideoForDeletion } = require("./deleter.js");
 
 let router = express.Router();
 
@@ -24,8 +25,15 @@ router.post("/upload", async (req, res, next) => {
     } else {
       await moveToVideoDirectory(video);
       let videoId = generateVideoId();
-      let filename = path.basename(video.path);
-      storeVideo(videoId, filename);
+      expirationMinutes = parseInt(expirationMinutes, 10);
+      let created = Date.now();
+      storeVideo({
+        id: videoId,
+        filename: path.basename(video.path),
+        expirationMinutes: expirationMinutes,
+        created: Date.now()
+      });
+      scheduleVideoForDeletion(videoId, created, expirationMinutes);
       res.redirect(videoId);
     }
   } catch (error) {

@@ -6,20 +6,24 @@ db.prepare(
   `
   CREATE TABLE IF NOT EXISTS video (
     id PRIMARY KEY NOT NULL,
-    filename NOT NULL UNIQUE
+    filename NOT NULL UNIQUE,
+    expiration_minutes NOT NULL,
+    created NOT NULL
   )
 `
 ).run();
 
-function storeVideo(id, filename) {
+function storeVideo({ id, filename, expirationMinutes, created }) {
   db.prepare(
     `
-    INSERT INTO video (id, filename)
-    VALUES (:id, :filename)
+    INSERT INTO video (id, filename, expiration_minutes, created)
+    VALUES (:id, :filename, :expirationMinutes, :created)
   `
   ).run({
     id: id,
     filename: filename,
+    expirationMinutes: expirationMinutes,
+    created: created
   });
 }
 
@@ -45,9 +49,23 @@ function getFilename(id) {
   return result;
 }
 
+function deleteFromVideo(id) {
+  db.prepare(`
+    DELETE FROM video WHERE id = :id
+  `).run({ id: id });
+}
+
+function getAllVideos() {
+  return db.prepare(`
+    SELECT * FROM video
+  `).all();
+}
+
 module.exports = {
   ...module.exports,
   storeVideo,
   videoIdExists,
   getFilename,
+  deleteFromVideo,
+  getAllVideos
 };
