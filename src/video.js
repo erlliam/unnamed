@@ -23,7 +23,7 @@ router.get("/video/:videoId", async (req, res, next) => {
   try {
     let videoId = req.params.videoId;
     let filename = getFilename(videoId);
-    if (await videoExists(filename)) {
+    if (await videoFileExists(filename)) {
       res.sendFile(filename, { root: videoDirectory });
     } else {
       next();
@@ -33,7 +33,7 @@ router.get("/video/:videoId", async (req, res, next) => {
   }
 });
 
-async function videoExists(videoName) {
+async function videoFileExists(videoName) {
   try {
     let videoPath = path.join(videoDirectory, videoName);
     await fs.access(videoPath);
