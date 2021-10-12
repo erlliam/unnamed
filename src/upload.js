@@ -4,6 +4,7 @@ let ffprobe = require("ffprobe");
 let fs = require("fs/promises");
 let path = require("path");
 let { videoDirectory, ffprobePath } = require("../config.json");
+let { storeVideo, videoIdExists } = require("./database.js");
 
 let router = express.Router();
 
@@ -22,7 +23,10 @@ router.post("/upload", async (req, res, next) => {
       res.status(400).render("text", { texts: ["Invalid video."] });
     } else {
       await moveToVideoDirectory(video);
-      res.redirect(path.basename(video.path));
+      let videoId = generateVideoId();
+      let filename = path.basename(video.path);
+      storeVideo(videoId, filename);
+      res.redirect(videoId);
     }
   } catch (error) {
     next(error);
@@ -86,6 +90,29 @@ async function moveToVideoDirectory(video) {
     console.error("error: failed to move video into the video directory");
     throw error;
   }
+}
+
+function generateVideoId() {
+  for (;;) {
+    let id = makeid(4);
+    if (videoIdExists(id)) {
+      console.log("warning: video id collision");
+    } else {
+      return id;
+    }
+  }
+}
+
+function makeid(length) {
+  // https://stackoverflow.com/a/1349426
+  let result = "";
+  let characters =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  let charactersLength = characters.length;
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * charactersLength));
+  }
+  return result;
 }
 
 module.exports = {

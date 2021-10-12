@@ -2,14 +2,15 @@ let express = require("express");
 let fs = require("fs/promises");
 let path = require("path");
 let { videoDirectory } = require("../config.json");
+let { videoIdExists, getFilename } = require("./database.js");
 
 let router = express.Router();
 
-router.get("/:videoName", async (req, res, next) => {
+router.get("/:videoId", async (req, res, next) => {
   try {
-    let videoName = req.params.videoName;
-    if (await videoExists(videoName)) {
-      res.render("video", { videoName: videoName });
+    let videoId = req.params.videoId;
+    if (videoIdExists(videoId)) {
+      res.render("video", { videoId: videoId });
     } else {
       res.status(404).render("text", { texts: ["Video not found."] });
     }
@@ -18,11 +19,12 @@ router.get("/:videoName", async (req, res, next) => {
   }
 });
 
-router.get("/video/:videoName", async (req, res, next) => {
+router.get("/video/:videoId", async (req, res, next) => {
   try {
-    let videoName = req.params.videoName;
-    if (await videoExists(videoName)) {
-      res.sendFile(req.params.videoName, { root: videoDirectory });
+    let videoId = req.params.videoId;
+    let filename = getFilename(videoId);
+    if (await videoExists(filename)) {
+      res.sendFile(filename, { root: videoDirectory });
     } else {
       res.status(404).render("text", { texts: ["Video not found."] });
     }
