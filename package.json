@@ -8,6 +8,7 @@
     "test": "jest"
   },
   "dependencies": {
+    "better-sqlite3": "^7.4.3",
     "ejs": "^3.1.6",
     "express": "^4.17.1",
     "ffprobe": "^1.1.2",
