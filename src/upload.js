@@ -18,10 +18,10 @@ router.post("/upload", async (req, res, next) => {
       await cleanUpVideo(video);
       res
         .status(400)
-        .render("text", { texts: ["Invalid expiration minutes."] });
+        .render("text", { heading: "Error", texts: ["Invalid expiration minutes."] });
     } else if (!(await validVideo(video))) {
       await cleanUpVideo(video);
-      res.status(400).render("text", { texts: ["Invalid video."] });
+      res.status(400).render("text", { heading: "Error", texts: ["Invalid video."] });
     } else {
       await moveToVideoDirectory(video);
       let videoId = generateVideoId();
