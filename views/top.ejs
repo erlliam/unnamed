@@ -9,28 +9,40 @@
 }
 
 body {
-  max-width: 60rem;
-  margin: auto;
+  margin: 0;
+  background-color: #f9f9f9;
 }
 
-h1 {
+header {
+  padding: .25rem 0;
   text-align: center;
-  margin-top: 1rem;
-  margin-bottom: 0;
+  background-color: #ffffff;
+  border-bottom: 1px solid #eeeeee;
 }
 
-h1 > a {
+header h1,
+header p {
+  margin: 0;
+}
+
+header a {
   color: #6c83ff;
 }
 
-h1 + p {
-  text-align: center;
-  margin-top: 0;
-  margin-bottom: 2rem;
+header p {
+  font-size: .8rem;
+}
+
+main {
+  max-width: 40rem;
+  margin: auto;
 }
 
     </style>
   </head>
   <body>
-    <h1><a href="/">unnamed</a></h1>
-    <p>Share videos that expire.</p>
+    <header>
+      <h1><a href="/">unnamed</a></h1>
+      <p>Share videos that expire.</p>
+    </header>
+    <main>
