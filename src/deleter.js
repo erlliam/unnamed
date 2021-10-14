@@ -3,15 +3,19 @@ let path = require("path");
 let { videoDirectory } = require("../config.json");
 let { getVideo, deleteFromVideo, getAllVideos } = require("./database.js");
 
-async function deleteVideo(videoId) {
+async function deleteVideo(videoId, manualDeletion = false) {
   let videoInDatabase = getVideo(videoId);
-  let expirationTimestamp = calculateExpirationTimestamp(videoInDatabase);
-  let nowTimestamp = Date.now();
-  if (nowTimestamp < expirationTimestamp) {
-    // todo: reschedule the deletion, don't just log it
-    console.log("warning: deleting video before it's expiration time");
-    console.log("\texpiration: " + expirationTimestamp, "now: " + nowTimestamp);
+
+  if (!manualDeletion) {
+    let expirationTimestamp = calculateExpirationTimestamp(videoInDatabase);
+    let nowTimestamp = Date.now();
+    if (nowTimestamp < expirationTimestamp) {
+      // todo: reschedule the deletion, don't just log it
+      console.log("warning: deleting video before it's expiration time");
+      console.log("\texpiration: " + expirationTimestamp, "now: " + nowTimestamp);
+    }
   }
+
   deleteFromVideo(videoInDatabase.id);
   await fs.unlink(path.join(videoDirectory, videoInDatabase.filename));
 }
@@ -41,4 +45,5 @@ module.exports = {
   ...module.exports,
   scheduleVideoForDeletion,
   scheduleVideosForDeletion,
+  deleteVideo
 };
