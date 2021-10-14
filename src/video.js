@@ -30,12 +30,10 @@ router.post("/:videoId", async (req, res, next) => {
       await deleteVideo(videoId, true);
       res.redirect("/");
     } else {
-      res
-        .status(404)
-        .render("text", {
-          heading: "Error",
-          texts: ["Failed to delete the video.", "You do not own the video."],
-        });
+      res.status(404).render("text", {
+        heading: "Error",
+        texts: ["Failed to delete the video.", "You do not own the video."],
+      });
     }
   } catch (error) {
     next(error);
