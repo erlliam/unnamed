@@ -16,12 +16,10 @@ router.post("/upload", async (req, res, next) => {
     let video = formData.files.video;
     if (!validExpirationMinutes(expirationMinutes)) {
       await cleanUpVideo(video);
-      res
-        .status(400)
-        .render("text", {
-          heading: "Error",
-          texts: ["Invalid expiration minutes."],
-        });
+      res.status(400).render("text", {
+        heading: "Error",
+        texts: ["Invalid expiration minutes."],
+      });
     } else if (!(await validVideo(video))) {
       await cleanUpVideo(video);
       res
@@ -31,11 +29,7 @@ router.post("/upload", async (req, res, next) => {
       await moveToVideoDirectory(video);
       expirationMinutes = parseInt(expirationMinutes, 10);
       let videoInDatabase = storeVideo(video, expirationMinutes);
-      scheduleVideoForDeletion(
-        videoInDatabase.id,
-        videoInDatabase.created,
-        expirationMinutes
-      );
+      scheduleVideoForDeletion(videoInDatabase);
       res.redirect(videoInDatabase.id);
     }
   } catch (error) {

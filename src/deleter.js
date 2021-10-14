@@ -9,18 +9,19 @@ async function deleteVideo(videoId) {
   await fs.unlink(path.join(videoDirectory, filename));
 }
 
-function scheduleVideoForDeletion(videoId, created, minutesFromNow) {
-  let createdDate = new Date(created);
-  let expirationTimestamp = createdDate.getTime() + minutesFromNow * 60 * 1000;
+function scheduleVideoForDeletion(videoInDatabase) {
+  let createdDate = new Date(videoInDatabase.created);
+  let expirationTimestamp =
+    createdDate.getTime() + videoInDatabase.expiration_minutes * 60 * 1000;
   let timeoutMs = expirationTimestamp - Date.now();
   setTimeout(() => {
-    deleteVideo(videoId);
+    deleteVideo(videoInDatabase.id);
   }, timeoutMs);
 }
 
 function scheduleVideosForDeletion() {
-  for (let video of getAllVideos()) {
-    scheduleVideoForDeletion(video.id, video.created, video.expiration_minutes);
+  for (let videoInDatabase of getAllVideos()) {
+    scheduleVideoForDeletion(videoInDatabase);
   }
 }
 
