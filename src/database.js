@@ -14,7 +14,13 @@ db.prepare(
 `
 ).run();
 
-function insertIntoVideo({ id, filename, expirationMinutes, created, sessionId }) {
+function insertIntoVideo({
+  id,
+  filename,
+  expirationMinutes,
+  created,
+  sessionId,
+}) {
   return db
     .prepare(
       `
@@ -27,7 +33,7 @@ function insertIntoVideo({ id, filename, expirationMinutes, created, sessionId }
       filename: filename,
       expirationMinutes: expirationMinutes,
       created: created,
-      sessionId: sessionId
+      sessionId: sessionId,
     });
 }
 

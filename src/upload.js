@@ -33,7 +33,7 @@ router.post("/upload", async (req, res, next) => {
         video: video,
         expirationMinutes: expirationMinutes,
         longerUrl: longerUrl,
-        sessionId: req.session.id
+        sessionId: req.session.id,
       });
       scheduleVideoForDeletion(videoInDatabase);
       res.redirect(videoInDatabase.id);
@@ -115,7 +115,7 @@ function storeVideo({ video, expirationMinutes, longerUrl, sessionId }) {
         filename: path.basename(video.path),
         expirationMinutes: expirationMinutes,
         created: Date.now(),
-        sessionId: sessionId
+        sessionId: sessionId,
       });
       lastInsertRowid = info.lastInsertRowid;
       let videoInDatabase = getVideo(videoId);
