@@ -29,7 +29,12 @@ router.post("/upload", async (req, res, next) => {
       await moveToVideoDirectory(video);
       expirationMinutes = parseInt(expirationMinutes, 10);
       let longerUrl = formData.fields.longerUrl === "on";
-      let videoInDatabase = storeVideo(video, expirationMinutes, longerUrl);
+      let videoInDatabase = storeVideo({
+        video: video,
+        expirationMinutes: expirationMinutes,
+        longerUrl: longerUrl,
+        sessionId: req.session.id
+      });
       scheduleVideoForDeletion(videoInDatabase);
       res.redirect(videoInDatabase.id);
     }
@@ -97,7 +102,7 @@ async function moveToVideoDirectory(video) {
   }
 }
 
-function storeVideo(video, expirationMinutes, longerUrl) {
+function storeVideo({ video, expirationMinutes, longerUrl, sessionId }) {
   let urlLength = 4;
   if (longerUrl) {
     urlLength = 32;
@@ -110,6 +115,7 @@ function storeVideo(video, expirationMinutes, longerUrl) {
         filename: path.basename(video.path),
         expirationMinutes: expirationMinutes,
         created: Date.now(),
+        sessionId: sessionId
       });
       lastInsertRowid = info.lastInsertRowid;
       let videoInDatabase = getVideo(videoId);

@@ -8,17 +8,18 @@ db.prepare(
     id PRIMARY KEY NOT NULL,
     filename NOT NULL UNIQUE,
     expiration_minutes NOT NULL,
-    created NOT NULL
+    created NOT NULL,
+    session_Id NOT NULL
   )
 `
 ).run();
 
-function insertIntoVideo({ id, filename, expirationMinutes, created }) {
+function insertIntoVideo({ id, filename, expirationMinutes, created, sessionId }) {
   return db
     .prepare(
       `
-    INSERT INTO video (id, filename, expiration_minutes, created)
-    VALUES (:id, :filename, :expirationMinutes, :created)
+    INSERT INTO video (id, filename, expiration_minutes, created, session_id)
+    VALUES (:id, :filename, :expirationMinutes, :created, :sessionId)
   `
     )
     .run({
@@ -26,6 +27,7 @@ function insertIntoVideo({ id, filename, expirationMinutes, created }) {
       filename: filename,
       expirationMinutes: expirationMinutes,
       created: created,
+      sessionId: sessionId
     });
 }
 

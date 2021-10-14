@@ -19,7 +19,7 @@ function createApp() {
     secret: 'addExpressSessionStoreSecretKeyToConfig',
     rolling: true,
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: true,
     cookie: {
       path: '/',
       httpOnly: true,
