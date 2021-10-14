@@ -6,6 +6,13 @@ let { getVideo, deleteFromVideo, getAllVideos } = require("./database.js");
 async function deleteVideo(videoId, manualDeletion = false) {
   let videoInDatabase = getVideo(videoId);
 
+  // todo: Unschedule video deletions if the user deletes the video
+  // is this worth it?
+  if (videoInDatabase === undefined) {
+    console.log("warning: video has already been deleted, the user may have manually deleted it");
+    return;
+  }
+
   if (!manualDeletion) {
     let expirationTimestamp = calculateExpirationTimestamp(videoInDatabase);
     let nowTimestamp = Date.now();
