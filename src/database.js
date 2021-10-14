@@ -81,6 +81,13 @@ function getVideo(id) {
   return db.prepare(`SELECT * FROM video WHERE id = :id`).get({ id: id });
 }
 
+function getAllVideoIdsFromSessionId(sessionId) {
+  let result = db
+    .prepare(`SELECT id FROM video WHERE session_id = :sessionId`)
+    .all({ sessionId: sessionId });
+  return result.map(x => x.id);
+}
+
 module.exports = {
   ...module.exports,
   insertIntoVideo,
@@ -90,4 +97,5 @@ module.exports = {
   getAllVideos,
   getVideo,
   db,
+  getAllVideoIdsFromSessionId
 };

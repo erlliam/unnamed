@@ -43,4 +43,17 @@ Once a link expires, the video is deleted.</p>
   </div>
 </form>
 
+<% if (videos.length > 0) { -%>
+</main>
+<main>
+  <h2>Uploaded videos</h2>
+  <ul>
+    <% for (let id of videos) { %>
+      <li>
+        <a href="/<%= id %>"><%= id %></a>
+      </li>
+    <% } %>
+  </ul>
+<% } -%>
+
 <%- include("bottom"); -%>

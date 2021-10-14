@@ -5,7 +5,7 @@ let expressSessionStore = require("better-sqlite3-session-store")(
 );
 let { router: uploadRouter } = require("./upload.js");
 let { router: videoRouter } = require("./video.js");
-let { db } = require("./database.js");
+let { db, getAllVideoIdsFromSessionId } = require("./database.js");
 
 function createApp() {
   let app = express();
@@ -35,7 +35,8 @@ function createApp() {
   app.use(videoRouter);
 
   app.get("/", (req, res) => {
-    res.render("index");
+    let videos = getAllVideoIdsFromSessionId(req.session.id);
+    res.render("index", { videos: videos });
   });
 
   app.get("*", (req, res) => {
