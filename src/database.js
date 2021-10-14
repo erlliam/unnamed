@@ -13,7 +13,7 @@ db.prepare(
 `
 ).run();
 
-function storeVideo({ id, filename, expirationMinutes, created }) {
+function insertIntoVideo({ id, filename, expirationMinutes, created }) {
   db.prepare(
     `
     INSERT INTO video (id, filename, expiration_minutes, created)
@@ -69,7 +69,7 @@ function getAllVideos() {
 
 module.exports = {
   ...module.exports,
-  storeVideo,
+  insertIntoVideo,
   videoIdExists,
   getFilename,
   deleteFromVideo,

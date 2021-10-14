@@ -4,7 +4,7 @@ let ffprobe = require("ffprobe");
 let fs = require("fs/promises");
 let path = require("path");
 let { videoDirectory, ffprobePath } = require("../config.json");
-let { storeVideo, videoIdExists } = require("./database.js");
+let { insertIntoVideo, videoIdExists } = require("./database.js");
 let { scheduleVideoForDeletion } = require("./deleter.js");
 
 let router = express.Router();
@@ -27,7 +27,7 @@ router.post("/upload", async (req, res, next) => {
       let videoId = generateVideoId();
       expirationMinutes = parseInt(expirationMinutes, 10);
       let created = Date.now();
-      storeVideo({
+      insertIntoVideo({
         id: videoId,
         filename: path.basename(video.path),
         expirationMinutes: expirationMinutes,
