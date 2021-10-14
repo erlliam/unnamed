@@ -9,7 +9,7 @@ db.prepare(
     filename NOT NULL UNIQUE,
     expiration_minutes NOT NULL,
     created NOT NULL,
-    session_Id NOT NULL
+    session_id NOT NULL
   )
 `
 ).run();
