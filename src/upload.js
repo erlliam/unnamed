@@ -4,7 +4,7 @@ let ffprobe = require("ffprobe");
 let fs = require("fs/promises");
 let path = require("path");
 let { videoDirectory, ffprobePath } = require("../config.json");
-let { insertIntoVideo, videoIdExists } = require("./database.js");
+let { insertIntoVideo, getVideo } = require("./database.js");
 let { scheduleVideoForDeletion } = require("./deleter.js");
 
 let router = express.Router();
@@ -18,23 +18,25 @@ router.post("/upload", async (req, res, next) => {
       await cleanUpVideo(video);
       res
         .status(400)
-        .render("text", { heading: "Error", texts: ["Invalid expiration minutes."] });
+        .render("text", {
+          heading: "Error",
+          texts: ["Invalid expiration minutes."],
+        });
     } else if (!(await validVideo(video))) {
       await cleanUpVideo(video);
-      res.status(400).render("text", { heading: "Error", texts: ["Invalid video."] });
+      res
+        .status(400)
+        .render("text", { heading: "Error", texts: ["Invalid video."] });
     } else {
       await moveToVideoDirectory(video);
-      let videoId = generateVideoId();
       expirationMinutes = parseInt(expirationMinutes, 10);
-      let created = Date.now();
-      insertIntoVideo({
-        id: videoId,
-        filename: path.basename(video.path),
-        expirationMinutes: expirationMinutes,
-        created: Date.now(),
-      });
-      scheduleVideoForDeletion(videoId, created, expirationMinutes);
-      res.redirect(videoId);
+      let videoInDatabase = storeVideo(video, expirationMinutes);
+      scheduleVideoForDeletion(
+        videoInDatabase.id,
+        videoInDatabase.created,
+        expirationMinutes
+      );
+      res.redirect(videoInDatabase.id);
     }
   } catch (error) {
     next(error);
@@ -100,13 +102,25 @@ async function moveToVideoDirectory(video) {
   }
 }
 
-function generateVideoId() {
+function storeVideo(video, expirationMinutes) {
   for (;;) {
-    let id = makeid(4);
-    if (videoIdExists(id)) {
-      console.log("warning: video id collision");
-    } else {
-      return id;
+    try {
+      let videoId = makeid(4);
+      let info = insertIntoVideo({
+        id: videoId,
+        filename: path.basename(video.path),
+        expirationMinutes: expirationMinutes,
+        created: Date.now(),
+      });
+      lastInsertRowid = info.lastInsertRowid;
+      let videoInDatabase = getVideo(videoId);
+      return videoInDatabase;
+    } catch (error) {
+      if (error.code === "SQLITE_CONSTRAINT_PRIMARYKEY") {
+        console.log("warning: collision detected");
+      } else {
+        throw error;
+      }
     }
   }
 }

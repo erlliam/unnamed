@@ -14,17 +14,19 @@ db.prepare(
 ).run();
 
 function insertIntoVideo({ id, filename, expirationMinutes, created }) {
-  db.prepare(
-    `
+  return db
+    .prepare(
+      `
     INSERT INTO video (id, filename, expiration_minutes, created)
     VALUES (:id, :filename, :expirationMinutes, :created)
   `
-  ).run({
-    id: id,
-    filename: filename,
-    expirationMinutes: expirationMinutes,
-    created: created,
-  });
+    )
+    .run({
+      id: id,
+      filename: filename,
+      expirationMinutes: expirationMinutes,
+      created: created,
+    });
 }
 
 function videoIdExists(id) {
@@ -67,6 +69,10 @@ function getAllVideos() {
     .all();
 }
 
+function getVideo(id) {
+  return db.prepare(`SELECT * FROM video WHERE id = :id`).get({ id: id });
+}
+
 module.exports = {
   ...module.exports,
   insertIntoVideo,
@@ -74,4 +80,5 @@ module.exports = {
   getFilename,
   deleteFromVideo,
   getAllVideos,
+  getVideo,
 };

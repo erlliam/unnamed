@@ -14,7 +14,9 @@ function createApp() {
   });
 
   app.get("*", (req, res) => {
-    res.status(404).render("text", { heading: "Error", texts: ["Page not found."] });
+    res
+      .status(404)
+      .render("text", { heading: "Error", texts: ["Page not found."] });
   });
 
   return app;
