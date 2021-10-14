@@ -11,7 +11,10 @@ router.get("/:videoId", async (req, res, next) => {
   try {
     let videoId = req.params.videoId;
     if (videoExists(videoId)) {
-      res.render("video", { videoId: videoId, requesterOwnsVideo: requesterOwnsVideo(req, videoId) });
+      res.render("video", {
+        videoId: videoId,
+        requesterOwnsVideo: requesterOwnsVideo(req, videoId),
+      });
     } else {
       next();
     }
@@ -19,7 +22,6 @@ router.get("/:videoId", async (req, res, next) => {
     next(error);
   }
 });
-
 
 router.post("/:videoId", async (req, res, next) => {
   try {
@@ -30,7 +32,10 @@ router.post("/:videoId", async (req, res, next) => {
     } else {
       res
         .status(404)
-        .render("text", { heading: "Error", texts: ["Failed to delete the video.", "You do not own the video."] });
+        .render("text", {
+          heading: "Error",
+          texts: ["Failed to delete the video.", "You do not own the video."],
+        });
     }
   } catch (error) {
     next(error);

@@ -9,7 +9,9 @@ async function deleteVideo(videoId, manualDeletion = false) {
   // todo: Unschedule video deletions if the user deletes the video
   // is this worth it?
   if (videoInDatabase === undefined) {
-    console.log("warning: video has already been deleted, the user may have manually deleted it");
+    console.log(
+      "warning: video has already been deleted, the user may have manually deleted it"
+    );
     return;
   }
 
@@ -19,7 +21,10 @@ async function deleteVideo(videoId, manualDeletion = false) {
     if (nowTimestamp < expirationTimestamp) {
       // todo: reschedule the deletion, don't just log it
       console.log("warning: deleting video before it's expiration time");
-      console.log("\texpiration: " + expirationTimestamp, "now: " + nowTimestamp);
+      console.log(
+        "\texpiration: " + expirationTimestamp,
+        "now: " + nowTimestamp
+      );
     }
   }
 
@@ -52,5 +57,5 @@ module.exports = {
   ...module.exports,
   scheduleVideoForDeletion,
   scheduleVideosForDeletion,
-  deleteVideo
+  deleteVideo,
 };
