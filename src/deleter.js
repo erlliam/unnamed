@@ -1,18 +1,24 @@
 let fs = require("fs/promises");
 let path = require("path");
 let { videoDirectory } = require("../config.json");
-let { getFilename, deleteFromVideo, getAllVideos } = require("./database.js");
+let { getVideo, deleteFromVideo, getAllVideos } = require("./database.js");
 
 async function deleteVideo(videoId) {
-  let filename = getFilename(videoId);
-  deleteFromVideo(videoId);
-  await fs.unlink(path.join(videoDirectory, filename));
+  let videoInDatabase = getVideo(videoId);
+  let expirationTimestamp = calculateExpirationTimestamp(videoInDatabase);
+  let nowTimestamp = Date.now();
+  if (nowTimestamp < expirationTimestamp) {
+    // todo: reschedule the deletion, don't just log it
+    console.log("warning: deleting video before it's expiration time");
+    console.log("\texpiration: " + expirationTimestamp, "now: " + nowTimestamp);
+  }
+  deleteFromVideo(videoInDatabase.id);
+  await fs.unlink(path.join(videoDirectory, videoInDatabase.filename));
 }
 
 function scheduleVideoForDeletion(videoInDatabase) {
   let createdDate = new Date(videoInDatabase.created);
-  let expirationTimestamp =
-    createdDate.getTime() + videoInDatabase.expiration_minutes * 60 * 1000;
+  let expirationTimestamp = calculateExpirationTimestamp(videoInDatabase);
   let timeoutMs = expirationTimestamp - Date.now();
   setTimeout(() => {
     deleteVideo(videoInDatabase.id);
@@ -23,6 +29,12 @@ function scheduleVideosForDeletion() {
   for (let videoInDatabase of getAllVideos()) {
     scheduleVideoForDeletion(videoInDatabase);
   }
+}
+
+function calculateExpirationTimestamp(videoInDatabase) {
+  let created = videoInDatabase.created;
+  let expireAfter = videoInDatabase.expiration_minutes * 60 * 1000;
+  return created + expireAfter;
 }
 
 module.exports = {
