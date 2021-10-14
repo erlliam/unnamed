@@ -81,4 +81,5 @@ module.exports = {
   deleteFromVideo,
   getAllVideos,
   getVideo,
+  db,
 };
