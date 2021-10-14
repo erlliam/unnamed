@@ -2,14 +2,14 @@ let express = require("express");
 let fs = require("fs/promises");
 let path = require("path");
 let { videoDirectory } = require("../config.json");
-let { videoIdExists, getFilename } = require("./database.js");
+let { videoExists, getFilename } = require("./database.js");
 
 let router = express.Router();
 
 router.get("/:videoId", async (req, res, next) => {
   try {
     let videoId = req.params.videoId;
-    if (videoIdExists(videoId)) {
+    if (videoExists(videoId)) {
       res.render("video", { videoId: videoId });
     } else {
       next();

@@ -29,7 +29,7 @@ function insertIntoVideo({ id, filename, expirationMinutes, created }) {
     });
 }
 
-function videoIdExists(id) {
+function videoExists(id) {
   let result = db
     .prepare(
       `
@@ -76,7 +76,7 @@ function getVideo(id) {
 module.exports = {
   ...module.exports,
   insertIntoVideo,
-  videoIdExists,
+  videoExists,
   getFilename,
   deleteFromVideo,
   getAllVideos,
