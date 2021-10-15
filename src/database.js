@@ -85,7 +85,7 @@ function getAllVideoIdsFromSessionId(sessionId) {
   let result = db
     .prepare(`SELECT id FROM video WHERE session_id = :sessionId`)
     .all({ sessionId: sessionId });
-  return result.map(x => x.id);
+  return result.map((x) => x.id);
 }
 
 module.exports = {
@@ -97,5 +97,5 @@ module.exports = {
   getAllVideos,
   getVideo,
   db,
-  getAllVideoIdsFromSessionId
+  getAllVideoIdsFromSessionId,
 };
