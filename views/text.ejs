@@ -1,18 +1,18 @@
 <%- include("top"); -%>
 
-<style>
-
+<section>
+  <style>
 .text-p {
   margin-top: 1rem;
   margin-bottom: 0;
 }
+  </style>
 
-</style>
+  <h2><%= heading -%></h2>
 
-<h2><%= heading -%></h2>
-
-<% for (let text of texts) { -%>
-<p class="text-p"><%= text -%></p>
-<% } -%>
+  <% for (let text of texts) { -%>
+  <p class="text-p"><%= text -%></p>
+  <% } -%>
+</section>
 
 <%- include("bottom"); -%>

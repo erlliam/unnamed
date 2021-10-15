@@ -1,19 +1,21 @@
 <%- include("top"); -%>
 
-<h2>Video</h2>
+<section>
+  <h2>Video</h2>
 
-<p><a href="/video/<%= videoId %>" download>Download</a></p>
+  <p><a href="/video/<%= videoId %>" download>Download</a></p>
 
-<% if (requesterOwnsVideo) { -%>
-  <form method="POST">
-    <p><button id="delete-button">Delete</button></p>
-  </form>
-<% } -%>
+  <% if (requesterOwnsVideo) { -%>
+    <form method="POST">
+      <p><button id="delete-button">Delete</button></p>
+    </form>
+  <% } -%>
 
-<video
-  controls
-  width="640"
-  src="/video/<%= videoId %>"
-></video>
+  <video
+    controls
+    width="640"
+    src="/video/<%= videoId %>"
+  ></video>
+</section>
 
 <%- include("bottom"); -%>
