@@ -14,7 +14,8 @@ Create config.json:
 {
   "videoDirectory": "/home/mint/Videos/unnamed",
   "ffprobePath": "/usr/bin/ffprobe",
-  "databasePath": "/home/mint/Projects/unnamed/unnamed.db"
+  "databasePath": "/home/mint/Projects/unnamed/unnamed.db",
+  "expressSessionStoreSecret": "changeme"
 }
 ```
 

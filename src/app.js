@@ -6,6 +6,7 @@ let expressSessionStore = require("better-sqlite3-session-store")(
 let { router: uploadRouter } = require("./upload.js");
 let { router: videoRouter } = require("./video.js");
 let { db, getAllVideoIdsFromSessionId } = require("./database.js");
+let { expressSessionStoreSecret } = require("../config.json");
 
 function createApp() {
   let app = express();
@@ -19,7 +20,7 @@ function createApp() {
           intervalMs: 1000 * 60 * 15, // 15 minutes
         },
       }),
-      secret: "addExpressSessionStoreSecretKeyToConfig",
+      secret: expressSessionStoreSecret,
       rolling: true,
       resave: false,
       saveUninitialized: true,
