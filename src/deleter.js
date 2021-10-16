@@ -1,6 +1,6 @@
 let fs = require("fs/promises");
 let path = require("path");
-let { videoDirectory } = require("../config.json");
+let { videoDirectory } = require("./config.js");
 let { getVideo, deleteFromVideo, getAllVideos } = require("./database.js");
 
 async function deleteVideo(videoId, manualDeletion = false) {

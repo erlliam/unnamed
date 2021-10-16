@@ -3,7 +3,7 @@ let formidable = require("formidable");
 let ffprobe = require("ffprobe");
 let fs = require("fs/promises");
 let path = require("path");
-let { videoDirectory, ffprobePath } = require("../config.json");
+let { videoDirectory, ffprobePath } = require("./config.js");
 let { insertIntoVideo, getVideo } = require("./database.js");
 let { scheduleVideoForDeletion } = require("./deleter.js");
 

@@ -6,7 +6,7 @@ let expressSessionStore = require("better-sqlite3-session-store")(
 let { router: uploadRouter } = require("./upload.js");
 let { router: videoRouter } = require("./video.js");
 let { db, getAllVideoIdsFromSessionId } = require("./database.js");
-let { expressSessionStoreSecret } = require("../config.json");
+let { expressSessionStoreSecret } = require("./config.js");
 
 function createApp() {
   let app = express();

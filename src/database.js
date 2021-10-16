@@ -1,5 +1,5 @@
 let betterSqlite3 = require("better-sqlite3");
-let { databasePath } = require("../config.json");
+let { databasePath } = require("./config.js");
 
 let db = betterSqlite3(databasePath);
 db.prepare(

@@ -1,7 +1,7 @@
 let express = require("express");
 let fs = require("fs/promises");
 let path = require("path");
-let { videoDirectory } = require("../config.json");
+let { videoDirectory } = require("./config.js");
 let { videoExists, getFilename, getVideo } = require("./database.js");
 let { deleteVideo } = require("./deleter.js");
 
