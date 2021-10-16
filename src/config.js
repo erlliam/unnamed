@@ -14,6 +14,7 @@ function getConfig() {
     databasePath: "DATABASE_PATH",
     expressSessionStoreSecret: "EXPRESS_SESSION_STORE_SECRET",
     port: "PORT",
+    formidableUploadDirectory: "FORMIDABLE_UPLOAD_DIRECTORY",
   };
 
   for (let key in keys) {

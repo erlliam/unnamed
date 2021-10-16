@@ -16,7 +16,8 @@ Create config.json:
   "ffprobePath": "/usr/bin/ffprobe",
   "databasePath": "/home/mint/Projects/unnamed/unnamed.db",
   "expressSessionStoreSecret": "changeme",
-  "port": 8001
+  "port": 8001,
+  "formidableUploadDirectory": "/tmp/unnamed"
 }
 ```
 

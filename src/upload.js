@@ -3,7 +3,11 @@ let formidable = require("formidable");
 let ffprobe = require("ffprobe");
 let fs = require("fs/promises");
 let path = require("path");
-let { videoDirectory, ffprobePath } = require("./config.js");
+let {
+  videoDirectory,
+  ffprobePath,
+  formidableUploadDirectory,
+} = require("./config.js");
 let { insertIntoVideo, getVideo } = require("./database.js");
 let { scheduleVideoForDeletion } = require("./deleter.js");
 
@@ -45,7 +49,7 @@ router.post("/upload", async (req, res, next) => {
 
 function parseFormData(req) {
   return new Promise((resolve, reject) => {
-    let form = formidable();
+    let form = formidable({ uploadDir: formidableUploadDirectory });
     form.parse(req, (error, fields, files) => {
       if (error) {
         reject(error);
