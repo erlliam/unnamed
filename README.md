@@ -45,3 +45,8 @@ Format code:
 Test code:
 
     npm test
+
+Add to config:
+* Update config.js
+* Update config.json
+* Update README.md
