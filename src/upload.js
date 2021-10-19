@@ -44,7 +44,14 @@ router.post("/upload", async (req, res, next) => {
       res.redirect(videoInDatabase.id);
     }
   } catch (error) {
-    next(error);
+    if (error.message.startsWith('maxFileSize exceeded')) {
+      res.status(400).render("text", {
+        heading: "Error",
+        texts: [`Invalid file size. The file size limit is ${formidableMaxFileMebibytes} MiB.`],
+      });
+    } else {
+      next(error);
+    }
   }
 });
 
