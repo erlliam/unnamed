@@ -7,7 +7,7 @@ let {
   videoDirectory,
   ffprobePath,
   formidableUploadDirectory,
-  formidableMaxFileMebibytes
+  formidableMaxFileMebibytes,
 } = require("./config.js");
 let { insertIntoVideo, getVideo } = require("./database.js");
 let { scheduleVideoForDeletion } = require("./deleter.js");
@@ -44,10 +44,12 @@ router.post("/upload", async (req, res, next) => {
       res.redirect(videoInDatabase.id);
     }
   } catch (error) {
-    if (error.message.startsWith('maxFileSize exceeded')) {
+    if (error.message.startsWith("maxFileSize exceeded")) {
       res.status(400).render("text", {
         heading: "Error",
-        texts: [`Invalid file size. The file size limit is ${formidableMaxFileMebibytes} MiB.`],
+        texts: [
+          `Invalid file size. The file size limit is ${formidableMaxFileMebibytes} MiB.`,
+        ],
       });
     } else {
       next(error);
@@ -59,7 +61,7 @@ function parseFormData(req) {
   return new Promise((resolve, reject) => {
     let form = formidable({
       uploadDir: formidableUploadDirectory,
-      maxFileSize: formidableMaxFileMebibytes * 1024 * 1024
+      maxFileSize: formidableMaxFileMebibytes * 1024 * 1024,
     });
     form.parse(req, (error, fields, files) => {
       if (error) {
