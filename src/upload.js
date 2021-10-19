@@ -7,6 +7,7 @@ let {
   videoDirectory,
   ffprobePath,
   formidableUploadDirectory,
+  formidableMaxFileMebibytes
 } = require("./config.js");
 let { insertIntoVideo, getVideo } = require("./database.js");
 let { scheduleVideoForDeletion } = require("./deleter.js");
@@ -49,7 +50,10 @@ router.post("/upload", async (req, res, next) => {
 
 function parseFormData(req) {
   return new Promise((resolve, reject) => {
-    let form = formidable({ uploadDir: formidableUploadDirectory });
+    let form = formidable({
+      uploadDir: formidableUploadDirectory,
+      maxFileSize: formidableMaxFileMebibytes * 1024 * 1024
+    });
     form.parse(req, (error, fields, files) => {
       if (error) {
         reject(error);

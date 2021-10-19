@@ -17,7 +17,8 @@ Create config.json:
   "databasePath": "/home/mint/Projects/unnamed/unnamed.db",
   "expressSessionStoreSecret": "changeme",
   "port": 8001,
-  "formidableUploadDirectory": "/tmp/unnamed"
+  "formidableUploadDirectory": "/tmp/unnamed",
+  "formidableMaxFileMebibytes": 100
 }
 ```
 
@@ -29,6 +30,7 @@ Or use environment variables:
     EXPRESS_SESSION_STORE_SECRET="changeme" \
     PORT=8001 \
     FORMIDABLE_UPLOAD_DIRECTORY="/tmp/unnamed" \
+    FORMIDABLE_MAX_FILE_MEBIBYTES=100 \
 
 Run server:
 

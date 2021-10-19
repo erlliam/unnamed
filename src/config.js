@@ -15,6 +15,7 @@ function getConfig() {
     expressSessionStoreSecret: "EXPRESS_SESSION_STORE_SECRET",
     port: "PORT",
     formidableUploadDirectory: "FORMIDABLE_UPLOAD_DIRECTORY",
+    formidableMaxFileMebibytes: "FORMIDABLE_MAX_FILE_MEBIBYTES",
   };
 
   for (let key in keys) {
