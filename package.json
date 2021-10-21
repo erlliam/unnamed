@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "author": "Erlliam Mejia",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "node src/server.js\n\nCheck -> http://localhost:8001/",
     "dev": "nodemon src/server.js",
     "format": "prettier --write .",
     "test": "jest"
