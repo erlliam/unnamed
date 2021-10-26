@@ -1,15 +1,19 @@
-{% extends "base.html" %} {% block main %}
+{% extends "base.html" %}
+
+{% block headExtras %}
+<style>
+  form button {
+    font-size: 1.5rem;
+  }
+
+  .index-div {
+    margin-top: 1rem;
+  }
+</style>
+{% endblock %}
+
+{% block main %}
 <section>
-  <style>
-    form button {
-      font-size: 1.5rem;
-    }
-
-    .index-div {
-      margin-top: 1rem;
-    }
-  </style>
-
   <h2>Upload</h2>
   <p>
     Select a video. Select an expiration time for the video. Press the upload
