@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block main %}
+<section>
+  <style>
+.text-p {
+  margin-top: 1rem;
+  margin-bottom: 0;
+}
+  </style>
+
+  <h2>{{ heading }}</h2>
+  {% for text in texts %}
+    <p class="text-p">{{ text }}</p>
+  {% endfor %}
+</section>
+{% endblock %}

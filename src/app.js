@@ -3,6 +3,7 @@ let expressSession = require("express-session");
 let expressSessionStore = require("better-sqlite3-session-store")(
   expressSession
 );
+let nunjucks = require("nunjucks");
 let { router: uploadRouter } = require("./upload.js");
 let { router: videoRouter } = require("./video.js");
 let { db, getAllVideoIdsFromSessionId } = require("./database.js");
@@ -10,7 +11,10 @@ let { expressSessionStoreSecret } = require("./config.js");
 
 function createApp() {
   let app = express();
-  app.set("view engine", "ejs");
+  nunjucks.configure('views', {
+    autoescape: true,
+    express: app
+  });
   app.use(
     expressSession({
       store: new expressSessionStore({
@@ -37,13 +41,13 @@ function createApp() {
 
   app.get("/", (req, res) => {
     let videos = getAllVideoIdsFromSessionId(req.session.id);
-    res.render("index", { videos: videos });
+    res.render("index.html", { videos: videos });
   });
 
   app.get("*", (req, res) => {
     res
       .status(404)
-      .render("text", { heading: "Error", texts: ["Page not found."] });
+      .render("text.html", { heading: "Error", texts: ["Page not found."] });
   });
 
   return app;

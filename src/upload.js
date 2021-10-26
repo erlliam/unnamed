@@ -21,7 +21,7 @@ router.post("/upload", async (req, res, next) => {
     let video = formData.files.video;
     if (!validExpirationMinutes(expirationMinutes)) {
       await cleanUpVideo(video);
-      res.status(400).render("text", {
+      res.status(400).render("text.html", {
         heading: "Error",
         texts: ["Invalid expiration minutes."],
       });
@@ -29,7 +29,7 @@ router.post("/upload", async (req, res, next) => {
       await cleanUpVideo(video);
       res
         .status(400)
-        .render("text", { heading: "Error", texts: ["Invalid video."] });
+        .render("text.html", { heading: "Error", texts: ["Invalid video."] });
     } else {
       await moveToVideoDirectory(video);
       expirationMinutes = parseInt(expirationMinutes, 10);
@@ -45,7 +45,7 @@ router.post("/upload", async (req, res, next) => {
     }
   } catch (error) {
     if (error.message.startsWith("maxFileSize exceeded")) {
-      res.status(400).render("text", {
+      res.status(400).render("text.html", {
         heading: "Error",
         texts: [
           `Invalid file size. The file size limit is ${formidableMaxFileMebibytes} MiB.`,
