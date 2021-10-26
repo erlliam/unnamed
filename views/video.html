@@ -1,6 +1,12 @@
 {% extends "base.html" %}
 
 {% block headExtras %}
+<style>
+  video {
+    display: block;
+  }
+</style>
+
 <meta property="og:site_name" content="unnamed" />
 <meta property="og:url" content="{{ url }}/{{ videoId }}" />
 <meta property="og:title" content="{{ videoId }}" />
