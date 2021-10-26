@@ -1,24 +1,21 @@
-{% extends "base.html" %}
-
-{% block main %}
+{% extends "base.html" %} {% block main %}
 <section>
   <style>
-form button {
-  font-size: 1.5rem;
-}
+    form button {
+      font-size: 1.5rem;
+    }
 
-.index-div {
-  margin-top: 1rem;
-}
+    .index-div {
+      margin-top: 1rem;
+    }
   </style>
 
   <h2>Upload</h2>
-  <p>Select a video.
-  Select an expiration time for the video.
-  Press the upload button.
-  You will be given a link you can share with others.
-  Links automatically expire.
-  Once a link expires, the video is deleted.</p>
+  <p>
+    Select a video. Select an expiration time for the video. Press the upload
+    button. You will be given a link you can share with others. Links
+    automatically expire. Once a link expires, the video is deleted.
+  </p>
 
   <form action="/upload" method="POST" enctype="multipart/form-data">
     <div class="index-div">
@@ -34,7 +31,7 @@ form button {
     </div>
 
     <div class="index-div">
-      <input id="link-longer-url" type="checkbox" name="longerUrl">
+      <input id="link-longer-url" type="checkbox" name="longerUrl" />
       <label for="link-longer-url">Use a longer URL</label>
     </div>
 
@@ -45,16 +42,14 @@ form button {
 </section>
 
 {% if videos.length > 0 %}
-  <section>
-    <h2>Uploaded videos</h2>
-    <ul>
-      {% for id in videos %}
-        <li>
-          <a href="/{{ id }}">{{ id }}</a>
-        </li>
-      {% endfor %}
-    </ul>
-  </section>
-{% endif %}
-
-{% endblock %}
+<section>
+  <h2>Uploaded videos</h2>
+  <ul>
+    {% for id in videos %}
+    <li>
+      <a href="/{{ id }}">{{ id }}</a>
+    </li>
+    {% endfor %}
+  </ul>
+</section>
+{% endif %} {% endblock %}

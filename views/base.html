@@ -3,62 +3,62 @@
   <head>
     <meta charset="utf-8" />
     <style>
-:root {
-  font-family: sans-serif;
-}
+      :root {
+        font-family: sans-serif;
+      }
 
-a {
-  color: #6c83ff;
-}
+      a {
+        color: #6c83ff;
+      }
 
-body {
-  margin: 0;
-  background-color: #f9f9f9;
-}
+      body {
+        margin: 0;
+        background-color: #f9f9f9;
+      }
 
-header {
-  padding: .25rem 0;
-  text-align: center;
-  background-color: #ffffff;
-  border-bottom: 1px solid #eeeeee;
-}
+      header {
+        padding: 0.25rem 0;
+        text-align: center;
+        background-color: #ffffff;
+        border-bottom: 1px solid #eeeeee;
+      }
 
-header h1,
-header p {
-  margin: 0;
-}
+      header h1,
+      header p {
+        margin: 0;
+      }
 
-header p {
-  font-size: .8rem;
-}
+      header p {
+        font-size: 0.8rem;
+      }
 
-main {
-  margin: auto;
-  max-width: 42rem;
-}
+      main {
+        margin: auto;
+        max-width: 42rem;
+      }
 
-section {
-  margin: 1rem 0;
-  padding: 1rem;
-  background-color: #ffffff;
-  border: 1px solid #eeeeee;
-}
+      section {
+        margin: 1rem 0;
+        padding: 1rem;
+        background-color: #ffffff;
+        border: 1px solid #eeeeee;
+      }
 
-section h2:first-of-type {
-  margin-top: 0;
-}
+      section h2:first-of-type {
+        margin-top: 0;
+      }
 
-footer {
-  max-width: 20rem;
-  margin: 1rem auto;
-  border-top: 1px solid #eeeeee;
-  text-align: center;
-  font-size: .8rem;
-}
+      footer {
+        max-width: 20rem;
+        margin: 1rem auto;
+        border-top: 1px solid #eeeeee;
+        text-align: center;
+        font-size: 0.8rem;
+      }
 
-footer p {
-  margin: .5rem 0;
-}
+      footer p {
+        margin: 0.5rem 0;
+      }
     </style>
   </head>
   <body>
@@ -66,13 +66,17 @@ footer p {
       <h1><a href="/">unnamed</a></h1>
       <p>Share videos that expire.</p>
     </header>
-    <main>
-    {% block main %}
-    {% endblock %}
-    </main>
+    <main>{% block main %} {% endblock %}</main>
     <footer>
-      <p>View the <a href="https://github.com/erlliam/unnamed">source code</a></p>
-      <p>Inspired by <a href="https://bpa.st">https://bpa.st</a> (<a href="https://github.com/supakeen/pinnwand">pinnwand</a>)</p>
+      <p>
+        View the <a href="https://github.com/erlliam/unnamed">source code</a>
+      </p>
+      <p>
+        Inspired by <a href="https://bpa.st">https://bpa.st</a> (<a
+          href="https://github.com/supakeen/pinnwand"
+          >pinnwand</a
+        >)
+      </p>
     </footer>
   </body>
 </html>

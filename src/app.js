@@ -11,9 +11,9 @@ let { expressSessionStoreSecret } = require("./config.js");
 
 function createApp() {
   let app = express();
-  nunjucks.configure('views', {
+  nunjucks.configure("views", {
     autoescape: true,
-    express: app
+    express: app,
   });
   app.use(
     expressSession({
