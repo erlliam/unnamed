@@ -1,4 +1,14 @@
-{% extends "base.html" %} {% block main %}
+{% extends "base.html" %}
+
+{% block headExtras %}
+<meta property="og:site_name" content="unnamed" />
+<meta property="og:url" content="{{ url }}/{{ videoId }}" />
+<meta property="og:title" content="{{ videoId }}" />
+<meta property="og:type" content="video.other" />
+<meta property="og:video" content="{{ url }}/video/{{ videoId }}" />
+{% endblock %}
+
+{% block main %}
 <section>
   <h2>Video</h2>
 

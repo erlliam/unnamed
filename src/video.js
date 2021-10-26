@@ -12,6 +12,7 @@ router.get("/:videoId", async (req, res, next) => {
     let videoId = req.params.videoId;
     if (videoExists(videoId)) {
       res.render("video.html", {
+        url: getSiteUrl(req),
         videoId: videoId,
         requesterOwnsVideo: requesterOwnsVideo(req, videoId),
       });
@@ -67,6 +68,11 @@ async function videoFileExists(videoName) {
 function requesterOwnsVideo(req, videoId) {
   let video = getVideo(videoId);
   return video.session_id === req.session.id;
+}
+
+// https://stackoverflow.com/a/10185427
+function getSiteUrl(req) {
+  return `${req.protocol}://${req.get("host")}`;
 }
 
 module.exports = {
