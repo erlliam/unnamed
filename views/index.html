@@ -1,6 +1,46 @@
 {% extends "base.html" %}
 
 {% block headExtras %}
+<script type="module">
+  let dragText = document.getElementById('drag-text');
+  let dragDarken = document.getElementById('drag-darken');
+  let videoInput = document.getElementById('video-input');
+
+  function overrideBodyEvent(eventName, callback) {
+    document.body.addEventListener(eventName, (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+
+      if (callback) {
+        callback(event);
+      }
+    });
+  }
+
+  function dragStart() {
+    dragText.classList.remove('hidden');
+    dragDarken.classList.remove('hidden');
+  }
+
+  function dragEnd() {
+    dragText.classList.add('hidden');
+    dragDarken.classList.add('hidden');
+  }
+
+  overrideBodyEvent('drag')
+  overrideBodyEvent('dragstart')
+  overrideBodyEvent('dragover', dragStart);
+  overrideBodyEvent('dragenter');
+  overrideBodyEvent('dragend');
+  overrideBodyEvent('dragleave', dragEnd);
+  overrideBodyEvent('drop', (event) => {
+    // todo: Don't let users drop more than one file
+    videoInput.files = event.dataTransfer.files;
+
+    dragEnd();
+  });
+
+</script>
 <style>
   form button {
     font-size: 1.5rem;
@@ -9,10 +49,36 @@
   .index-div {
     margin-top: 1rem;
   }
+
+  #drag-text {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1;
+    font-size: 2rem;
+    pointer-events: none;
+  }
+
+  #drag-darken {
+    position: fixed;
+    top:0;
+    left:0;
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0, 0, 0, 0.5);
+    pointer-events: none;
+  }
+
+  .hidden {
+    display: none;
+  }
 </style>
 {% endblock %}
 
 {% block main %}
+<section id="drag-text" class="hidden">Drop to select file</section>
+<div id="drag-darken" class="hidden"></div>
 <section>
   <h2>Upload</h2>
   <p>
@@ -23,7 +89,7 @@
 
   <form action="/upload" method="POST" enctype="multipart/form-data">
     <div class="index-div">
-      <input type="file" name="video" required />
+      <input id="video-input" type="file" name="video" required />
     </div>
 
     <div class="index-div">
