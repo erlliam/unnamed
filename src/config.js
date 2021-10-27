@@ -25,6 +25,19 @@ function getConfig() {
     }
   }
 
+  let missingKey = false;
+  for (let key in keys) {
+    if (!config.hasOwnProperty(key)) {
+      missingKey = true;
+      console.log(`warning: configuration option ${key} is missing`);
+    }
+  }
+
+  if (missingKey) {
+    console.error("error: invalid config");
+    process.exit(1);
+  }
+
   return config;
 }
 
