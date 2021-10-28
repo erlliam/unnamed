@@ -2,44 +2,39 @@
 
 {% block headExtras %}
 <script type="module">
-  let dragText = document.getElementById('drag-text');
-  let dragDarken = document.getElementById('drag-darken');
+  let dragPopup = document.getElementById('drag-popup');
   let videoInput = document.getElementById('video-input');
 
   function overrideBodyEvent(eventName, callback) {
     document.body.addEventListener(eventName, (event) => {
       event.preventDefault();
-      event.stopPropagation();
-
       if (callback) {
         callback(event);
       }
     });
   }
 
-  function dragStart() {
-    dragText.classList.remove('hidden');
-    dragDarken.classList.remove('hidden');
+  function openDragPopup() {
+    dragPopup.classList.remove('hidden');
   }
 
-  function dragEnd() {
-    dragText.classList.add('hidden');
-    dragDarken.classList.add('hidden');
+  function closeDragPopup() {
+    dragPopup.classList.add('hidden');
   }
 
-  overrideBodyEvent('drag')
-  overrideBodyEvent('dragstart')
-  overrideBodyEvent('dragover', dragStart);
-  overrideBodyEvent('dragenter');
-  overrideBodyEvent('dragend');
-  overrideBodyEvent('dragleave', dragEnd);
+  overrideBodyEvent('dragover');
+  overrideBodyEvent('dragenter', openDragPopup);
+  overrideBodyEvent('dragleave', (event) => {
+    // If event.relatedTarget is null, the user has dragged the file out of the browser or cancelled the drag
+    if (event.relatedTarget === null) {
+      closeDragPopup();
+    }
+  });
   overrideBodyEvent('drop', (event) => {
     // todo: Don't let users drop more than one file
     videoInput.files = event.dataTransfer.files;
-
-    dragEnd();
+    closeDragPopup();
   });
-
 </script>
 <style>
   form button {
@@ -50,35 +45,31 @@
     margin-top: 1rem;
   }
 
-  #drag-text {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    z-index: 1;
-    font-size: 2rem;
-    pointer-events: none;
-  }
-
-  #drag-darken {
+  #drag-popup {
     position: fixed;
     top:0;
     left:0;
     width: 100vw;
     height: 100vh;
-    background-color: rgba(0, 0, 0, 0.5);
-    pointer-events: none;
+    background-color: rgba(0, 0, 0, 0.75);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2rem;
   }
 
   .hidden {
-    display: none;
+    display: none !important;
   }
 </style>
 {% endblock %}
 
 {% block main %}
-<section id="drag-text" class="hidden">Drop to select file</section>
-<div id="drag-darken" class="hidden"></div>
+<div id="drag-popup" class="hidden">
+  <section>Drop anywhere to select file</section>
+</div>
+
 <section>
   <h2>Upload</h2>
   <p>
