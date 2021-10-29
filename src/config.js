@@ -9,6 +9,7 @@ function getConfig() {
   }
 
   let keys = {
+    instanceName: "INSTANCE_NAME",
     videoDirectory: "VIDEO_DIRECTORY",
     ffprobePath: "FFPROBE_PATH",
     databasePath: "DATABASE_PATH",

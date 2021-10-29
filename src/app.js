@@ -7,14 +7,15 @@ let nunjucks = require("nunjucks");
 let { router: uploadRouter } = require("./upload.js");
 let { router: videoRouter } = require("./video.js");
 let { db, getAllVideoIdsFromSessionId } = require("./database.js");
-let { expressSessionStoreSecret } = require("./config.js");
+let { expressSessionStoreSecret, instanceName } = require("./config.js");
 
 function createApp() {
   let app = express();
-  nunjucks.configure("views", {
+  let nunjucksEnvironment = nunjucks.configure("views", {
     autoescape: true,
     express: app,
   });
+  nunjucksEnvironment.addGlobal("instanceName", instanceName);
   app.use(
     expressSession({
       store: new expressSessionStore({

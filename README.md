@@ -12,6 +12,7 @@ Create config.json:
 
 ```
 {
+  "instanceName": "unnamed",
   "videoDirectory": "/home/mint/Videos/unnamed",
   "ffprobePath": "/usr/bin/ffprobe",
   "databasePath": "/home/mint/Projects/unnamed/unnamed.db",
@@ -24,6 +25,7 @@ Create config.json:
 
 Or use environment variables:
 
+    INSTANCE_NAME="unnamed" \
     VIDEO_DIRECTORY="/home/mint/Videos/unnamed" \
     FFPROBE_PATH="/usr/bin/ffprobe" \
     DATABASE_PATH="/home/mint/Projects/unnamed/unnamed.db" \
