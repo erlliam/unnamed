@@ -3,7 +3,7 @@ let fs = require("fs/promises");
 let path = require("path");
 let { videoDirectory } = require("./config.js");
 let { videoExists, getFilename, getVideo } = require("./database.js");
-let { deleteVideo } = require("./deleter.js");
+let { deleteVideo, calculateExpirationTimestamp } = require("./deleter.js");
 
 let router = express.Router();
 
@@ -15,6 +15,7 @@ router.get("/:videoId", async (req, res, next) => {
         url: getSiteUrl(req),
         videoId: videoId,
         requesterOwnsVideo: requesterOwnsVideo(req, videoId),
+        expirationTimestamp: calculateExpirationTimestamp(getVideo(videoId))
       });
     } else {
       next();

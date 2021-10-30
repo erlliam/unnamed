@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block headExtras %}
+<script type="module">
+  let expirationDate = new Date({{ expirationTimestamp }});
+  let expiration = document.getElementById('expiration');
+  expiration.textContent = expirationDate.toLocaleTimeString();
+</script>
 <style>
   video {
     display: block;
@@ -17,6 +22,7 @@
 {% block main %}
 <section>
   <h2>Video</h2>
+  <p>Video expires: <span id="expiration">{{ expirationTimestamp }}</span></p>
 
   <p><a href="/video/{{ videoId }}" download>Download</a></p>
 

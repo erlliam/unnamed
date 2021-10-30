@@ -58,4 +58,5 @@ module.exports = {
   scheduleVideoForDeletion,
   scheduleVideosForDeletion,
   deleteVideo,
+  calculateExpirationTimestamp
 };
