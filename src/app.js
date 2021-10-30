@@ -48,6 +48,12 @@ function createApp() {
         res.redirect(301, 'https://' + req.hostname + req.url);
       }
     });
+    app.use((req, res, next) => {
+      res.set({
+        "Strict-Transport-Security": "max-age=63072000"
+      });
+      next();
+    });
   }
 
   app.get("/", (req, res) => {
