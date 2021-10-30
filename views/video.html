@@ -24,7 +24,7 @@ document.addEventListener('DOMContentLoaded', () => {
 {% block main %}
 <section>
   <h2>Video</h2>
-  <p>Video expires: <span id="expiration">{{ expirationTimestamp }}</span></p>
+  <p>This video expires at <span id="expiration">{{ expirationTimestamp }}</span></p>
 
   <p><a href="/video/{{ videoId }}" download>Download</a></p>
 
