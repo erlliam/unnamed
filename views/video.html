@@ -1,10 +1,12 @@
 {% extends "base.html" %}
 
 {% block headExtras %}
-<script type="module">
+<script>
+document.addEventListener('DOMContentLoaded', () => {
   let expirationDate = new Date({{ expirationTimestamp }});
   let expiration = document.getElementById('expiration');
   expiration.textContent = expirationDate.toLocaleTimeString();
+});
 </script>
 <style>
   video {
