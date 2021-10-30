@@ -45,7 +45,7 @@ function createApp() {
       } else {
         // note: I think that req.get("host") returns the port number while req.hostname doesn't.
         // It shouldn't matter... at least for my use case...
-        res.redirect('https://' + req.hostname + req.url);
+        res.redirect(301, 'https://' + req.hostname + req.url);
       }
     });
   }
