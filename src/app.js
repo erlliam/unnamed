@@ -37,13 +37,27 @@ function createApp() {
     })
   );
   app.use(express.static("public"));
-  app.use(uploadRouter);
-  app.use(videoRouter);
+
+  if (process.env.NODE_ENV === "production") {
+    app.enable('trust proxy');
+    app.use((req, res, next) => {
+      if (req.secure) {
+        next();
+      } else {
+        // note: I think that req.get("host") returns the port number while req.hostname doesn't.
+        // It shouldn't matter... at least for my use case...
+        res.redirect('https://' + req.hostname + req.url);
+      }
+    });
+  }
 
   app.get("/", (req, res) => {
     let videos = getAllVideoIdsFromSessionId(req.session.id);
     res.render("index.html", { videos: videos });
   });
+
+  app.use(uploadRouter);
+  app.use(videoRouter);
 
   app.get("*", (req, res) => {
     res
