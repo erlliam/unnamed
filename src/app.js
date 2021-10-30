@@ -22,7 +22,7 @@ function createApp() {
         client: db,
         expired: {
           clear: true,
-          intervalMs: 1000 * 60 * 15, // 15 minutes
+          intervalMs: 1000 * 60 * 15, // 15 minutes,
         },
       }),
       secret: expressSessionStoreSecret,
@@ -31,6 +31,8 @@ function createApp() {
       saveUninitialized: true,
       cookie: {
         path: "/",
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
         httpOnly: true,
         maxAge: 1000 * 60 * 60 * 24 * 30,
       },
