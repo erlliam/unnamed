@@ -36,7 +36,6 @@ function createApp() {
       },
     })
   );
-  app.use(express.static("public"));
 
   if (process.env.NODE_ENV === "production") {
     app.enable('trust proxy');
