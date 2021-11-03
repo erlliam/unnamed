@@ -12,6 +12,7 @@ function getConfig() {
     instanceName: "INSTANCE_NAME",
     videoDirectory: "VIDEO_DIRECTORY",
     ffprobePath: "FFPROBE_PATH",
+    ffmpegPath: "FFMPEG_PATH",
     databasePath: "DATABASE_PATH",
     expressSessionStoreSecret: "EXPRESS_SESSION_STORE_SECRET",
     port: "PORT",

@@ -15,6 +15,7 @@ Create config.json:
   "instanceName": "unnamed",
   "videoDirectory": "/home/mint/Videos/unnamed",
   "ffprobePath": "/usr/bin/ffprobe",
+  "ffmpegPath": "/usr/bin/ffmpeg",
   "databasePath": "/home/mint/Projects/unnamed/unnamed.db",
   "expressSessionStoreSecret": "changeme",
   "port": 8001,
@@ -28,6 +29,7 @@ Or use environment variables:
     INSTANCE_NAME="unnamed" \
     VIDEO_DIRECTORY="/home/mint/Videos/unnamed" \
     FFPROBE_PATH="/usr/bin/ffprobe" \
+    FFMPEG_PATH="/usr/bin/ffmpeg" \
     DATABASE_PATH="/home/mint/Projects/unnamed/unnamed.db" \
     EXPRESS_SESSION_STORE_SECRET="changeme" \
     PORT=8001 \

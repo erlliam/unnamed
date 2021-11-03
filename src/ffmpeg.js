@@ -1,4 +1,4 @@
-let { ffprobePath } = require("./config.js");
+let { ffprobePath, ffmpegPath } = require("./config.js");
 let { execFile } = require("child_process");
 
 function ffprobe(path) {
@@ -11,7 +11,22 @@ function ffprobe(path) {
   });
 }
 
+function convertToMp4(path, newPath) {
+  // overwrites `newPath`
+  return new Promise((resolve, reject) => {
+    // todo: Crash if ffmpegPath is invalid (file doesn't exist or is not ffprobe)
+    execFile(ffmpegPath, ['-y', '-i', path, '-c', 'copy', '-f', 'mp4', newPath], (error, stdout, stderr) => {
+      if (error === null) {
+        resolve(true);
+      } else {
+        resolve(false);
+      }
+    });
+  });
+}
+
 module.exports = {
   ...module.exports,
-  ffprobe
+  ffprobe,
+  convertToMp4
 };
