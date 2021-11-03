@@ -3,13 +3,8 @@
   "version": "1.0.0",
   "author": "Erlliam Mejia",
   "scripts": {
-<<<<<<< HEAD
     "start": "node src/server.js",
     "dev": "nodemon -e js,json,html src/server.js",
-=======
-    "start": "node src/server.js\n\nCheck -> http://localhost:8001/",
-    "dev": "nodemon src/server.js",
->>>>>>> 1b16534b568083e246c02f4af17829b4a85103ec
     "format": "prettier --write .",
     "test": "jest"
   },
