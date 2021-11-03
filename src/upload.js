@@ -1,16 +1,15 @@
 let express = require("express");
 let formidable = require("formidable");
-let ffprobe = require("ffprobe");
 let fs = require("fs/promises");
 let path = require("path");
 let {
   videoDirectory,
-  ffprobePath,
   formidableUploadDirectory,
   formidableMaxFileMebibytes,
 } = require("./config.js");
 let { insertIntoVideo, getVideo } = require("./database.js");
 let { scheduleVideoForDeletion } = require("./deleter.js");
+let { ffprobe } = require("./ffmpeg.js");
 
 let router = express.Router();
 
@@ -92,19 +91,16 @@ function validExpirationMinutes(expirationMinutes) {
 }
 
 async function validVideo(video) {
-  try {
-    if (video) {
-      let info = await ffprobe(video.path, { path: ffprobePath });
-      for (let stream of info.streams) {
-        if (stream.codec_type === "video" && stream.avg_frame_rate !== "0/0") {
-          return true;
-        }
+  if (video) {
+    let info = await ffprobe(video.path);
+    for (let stream of info.streams ?? []) {
+      if (stream.codec_type === "video" && stream.avg_frame_rate !== "0/0") {
+        return true;
       }
     }
-    return false;
-  } catch (error) {
-    return false;
   }
+
+  return false;
 }
 
 async function moveToVideoDirectory(video) {
