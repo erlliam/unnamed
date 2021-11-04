@@ -1,3 +1,28 @@
+let { execFile } = require("child_process");
+
+function invalidConfigExit() {
+  console.log('error: invalid config');
+  process.exit(1);
+}
+
+function checkFfprobePath(config) {
+  execFile(config.ffprobePath, ['-version'], (error, stdout, stderr) => {
+    if (error) {
+      console.log('warning: ffprobePath is invalid');
+      invalidConfigExit();
+    }
+  });
+}
+
+function checkFfmpegPath(config) {
+  execFile(config.ffmpegPath, ['-version'], (error, stdout, stderr) => {
+    if (error) {
+      console.log('warning: ffmpegPath is invalid');
+      invalidConfigExit();
+    }
+  });
+}
+
 function getConfig() {
   let config = {};
   try {
@@ -39,6 +64,9 @@ function getConfig() {
     console.error("error: invalid config");
     process.exit(1);
   }
+
+  checkFfprobePath(config);
+  checkFfmpegPath(config);
 
   return config;
 }
