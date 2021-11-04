@@ -9,7 +9,7 @@ let {
 } = require("./config.js");
 let { insertIntoVideo, getVideo } = require("./database.js");
 let { scheduleVideoForDeletion } = require("./deleter.js");
-let { ffprobe } = require("./ffmpeg.js");
+let { ffprobe, convertToMp4 } = require("./ffmpeg.js");
 
 let router = express.Router();
 
@@ -32,6 +32,16 @@ router.post("/upload", async (req, res, next) => {
         .render("text.html", { heading: "Error", texts: ["Invalid video."] });
     } else {
       await moveToVideoDirectory(videoPath);
+      videoPath = path.join(videoDirectory, path.basename(videoPath));
+      let videoPathAsMp4 = videoPath + '.mp4';
+      let conversionSucceeded = await convertToMp4(videoPath, videoPathAsMp4);
+      cleanUpVideo(videoPath);
+      videoPath = videoPathAsMp4;
+      if (!conversionSucceeded) {
+        res.status(400)
+          .render("text.html", { heading: "Error", texts: ["Failed to convert video to MP4."] });
+        return;
+      }
       expirationMinutes = parseInt(expirationMinutes, 10);
       let longerUrl = formData.fields.longerUrl === "on";
       let videoInDatabase = storeVideo({
