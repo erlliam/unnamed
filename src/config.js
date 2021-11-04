@@ -1,8 +1,34 @@
 let { execFile } = require("child_process");
 
+let keys = {
+  instanceName: "INSTANCE_NAME",
+  videoDirectory: "VIDEO_DIRECTORY",
+  ffprobePath: "FFPROBE_PATH",
+  ffmpegPath: "FFMPEG_PATH",
+  databasePath: "DATABASE_PATH",
+  expressSessionStoreSecret: "EXPRESS_SESSION_STORE_SECRET",
+  port: "PORT",
+  formidableUploadDirectory: "FORMIDABLE_UPLOAD_DIRECTORY",
+  formidableMaxFileMebibytes: "FORMIDABLE_MAX_FILE_MEBIBYTES",
+};
+
 function invalidConfigExit() {
   console.log('error: invalid config');
   process.exit(1);
+}
+
+function checkForMissingKeys(config) {
+  let missingKey = false;
+  for (let key in keys) {
+    if (!config.hasOwnProperty(key)) {
+      missingKey = true;
+      console.log(`warning: configuration option ${key} is missing`);
+    }
+  }
+
+  if (missingKey) {
+    invalidConfigExit();
+  }
 }
 
 function checkFfprobePath(config) {
@@ -33,18 +59,6 @@ function getConfig() {
     }
   }
 
-  let keys = {
-    instanceName: "INSTANCE_NAME",
-    videoDirectory: "VIDEO_DIRECTORY",
-    ffprobePath: "FFPROBE_PATH",
-    ffmpegPath: "FFMPEG_PATH",
-    databasePath: "DATABASE_PATH",
-    expressSessionStoreSecret: "EXPRESS_SESSION_STORE_SECRET",
-    port: "PORT",
-    formidableUploadDirectory: "FORMIDABLE_UPLOAD_DIRECTORY",
-    formidableMaxFileMebibytes: "FORMIDABLE_MAX_FILE_MEBIBYTES",
-  };
-
   for (let key in keys) {
     let environmentVariable = process.env[keys[key]];
     if (environmentVariable !== undefined) {
@@ -52,19 +66,7 @@ function getConfig() {
     }
   }
 
-  let missingKey = false;
-  for (let key in keys) {
-    if (!config.hasOwnProperty(key)) {
-      missingKey = true;
-      console.log(`warning: configuration option ${key} is missing`);
-    }
-  }
-
-  if (missingKey) {
-    console.error("error: invalid config");
-    process.exit(1);
-  }
-
+  checkForMissingKeys(config);
   checkFfprobePath(config);
   checkFfmpegPath(config);
 
