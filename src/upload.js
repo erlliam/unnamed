@@ -17,24 +17,25 @@ router.post("/upload", async (req, res, next) => {
   try {
     let formData = await parseFormData(req);
     let expirationMinutes = formData.fields.expirationMinutes;
-    let video = formData.files.video;
+    let video = formData.files.video ?? {};
+    let videoPath = video.path;
     if (!validExpirationMinutes(expirationMinutes)) {
-      await cleanUpVideo(video);
+      await cleanUpVideo(videoPath);
       res.status(400).render("text.html", {
         heading: "Error",
         texts: ["Invalid expiration minutes."],
       });
-    } else if (!(await validVideo(video))) {
-      await cleanUpVideo(video);
+    } else if (!(await validVideo(videoPath))) {
+      await cleanUpVideo(videoPath);
       res
         .status(400)
         .render("text.html", { heading: "Error", texts: ["Invalid video."] });
     } else {
-      await moveToVideoDirectory(video);
+      await moveToVideoDirectory(videoPath);
       expirationMinutes = parseInt(expirationMinutes, 10);
       let longerUrl = formData.fields.longerUrl === "on";
       let videoInDatabase = storeVideo({
-        video: video,
+        filename: path.basename(videoPath),
         expirationMinutes: expirationMinutes,
         longerUrl: longerUrl,
         sessionId: req.session.id,
@@ -75,9 +76,9 @@ function parseFormData(req) {
   });
 }
 
-async function cleanUpVideo(video) {
-  if (video) {
-    await fs.unlink(video.path);
+async function cleanUpVideo(videoPath) {
+  if (videoPath) {
+    await fs.unlink(videoPath);
   }
 }
 
@@ -90,9 +91,9 @@ function validExpirationMinutes(expirationMinutes) {
   return false;
 }
 
-async function validVideo(video) {
-  if (video) {
-    let info = await ffprobe(video.path);
+async function validVideo(videoPath) {
+  if (videoPath) {
+    let info = await ffprobe(videoPath);
     for (let stream of info.streams ?? []) {
       if (stream.codec_type === "video" && stream.avg_frame_rate !== "0/0") {
         return true;
@@ -103,19 +104,19 @@ async function validVideo(video) {
   return false;
 }
 
-async function moveToVideoDirectory(video) {
+async function moveToVideoDirectory(videoPath) {
   try {
-    let fileName = path.basename(video.path);
+    let fileName = path.basename(videoPath);
     let newPath = path.join(videoDirectory, fileName);
     await fs.mkdir(videoDirectory, { recursive: true });
-    await fs.rename(video.path, newPath);
+    await fs.rename(videoPath, newPath);
   } catch (error) {
     console.error("error: failed to move video into the video directory");
     throw error;
   }
 }
 
-function storeVideo({ video, expirationMinutes, longerUrl, sessionId }) {
+function storeVideo({ filename, expirationMinutes, longerUrl, sessionId }) {
   let urlLength = 4;
   if (longerUrl) {
     urlLength = 32;
@@ -125,7 +126,7 @@ function storeVideo({ video, expirationMinutes, longerUrl, sessionId }) {
       let videoId = makeid(urlLength);
       let info = insertIntoVideo({
         id: videoId,
-        filename: path.basename(video.path),
+        filename: filename,
         expirationMinutes: expirationMinutes,
         created: Date.now(),
         sessionId: sessionId,
