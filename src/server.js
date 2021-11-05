@@ -9,5 +9,5 @@ scheduleVideosForDeletion();
 let app = createApp();
 
 const server = app.listen(port, () => {
-  console.log(`Listening at -> http://localhost:${port}`);
+  console.log(`Listening at -> http://localhost:${server.address().port}`);
 });
