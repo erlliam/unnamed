@@ -33,13 +33,17 @@ router.post("/upload", async (req, res, next) => {
     } else {
       await moveToVideoDirectory(videoPath);
       videoPath = path.join(videoDirectory, path.basename(videoPath));
-      let videoPathAsMp4 = videoPath + '.mp4';
+      let videoPathAsMp4 = videoPath + ".mp4";
       let conversionSucceeded = await convertToMp4(videoPath, videoPathAsMp4);
       cleanUpVideo(videoPath);
       videoPath = videoPathAsMp4;
       if (!conversionSucceeded) {
-        res.status(400)
-          .render("text.html", { heading: "Error", texts: ["Failed to convert video to MP4."] });
+        res
+          .status(400)
+          .render("text.html", {
+            heading: "Error",
+            texts: ["Failed to convert video to MP4."],
+          });
         return;
       }
       expirationMinutes = parseInt(expirationMinutes, 10);

@@ -13,7 +13,7 @@ let keys = {
 };
 
 function invalidConfigExit() {
-  console.log('error: invalid config');
+  console.log("error: invalid config");
   process.exit(1);
 }
 
@@ -32,18 +32,18 @@ function checkForMissingKeys(config) {
 }
 
 function checkFfprobePath(config) {
-  execFile(config.ffprobePath, ['-version'], (error, stdout, stderr) => {
+  execFile(config.ffprobePath, ["-version"], (error, stdout, stderr) => {
     if (error) {
-      console.log('warning: ffprobePath is invalid');
+      console.log("warning: ffprobePath is invalid");
       invalidConfigExit();
     }
   });
 }
 
 function checkFfmpegPath(config) {
-  execFile(config.ffmpegPath, ['-version'], (error, stdout, stderr) => {
+  execFile(config.ffmpegPath, ["-version"], (error, stdout, stderr) => {
     if (error) {
-      console.log('warning: ffmpegPath is invalid');
+      console.log("warning: ffmpegPath is invalid");
       invalidConfigExit();
     }
   });

@@ -1,12 +1,10 @@
-{% extends "base.html" %}
-
-{% block headExtras %}
+{% extends "base.html" %} {% block headExtras %}
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  let expirationDate = new Date({{ expirationTimestamp }});
-  let expiration = document.getElementById('expiration');
-  expiration.textContent = expirationDate.toLocaleTimeString();
-});
+  document.addEventListener('DOMContentLoaded', () => {
+    let expirationDate = new Date({{ expirationTimestamp }});
+    let expiration = document.getElementById('expiration');
+    expiration.textContent = expirationDate.toLocaleTimeString();
+  });
 </script>
 <style>
   video {
@@ -19,12 +17,12 @@ document.addEventListener('DOMContentLoaded', () => {
 <meta property="og:title" content="{{ videoId }}" />
 <meta property="og:type" content="video.other" />
 <meta property="og:video" content="{{ url }}/video/{{ videoId }}" />
-{% endblock %}
-
-{% block main %}
+{% endblock %} {% block main %}
 <section>
   <h2>Video</h2>
-  <p>This video expires at <span id="expiration">{{ expirationTimestamp }}</span></p>
+  <p>
+    This video expires at <span id="expiration">{{ expirationTimestamp }}</span>
+  </p>
 
   <p><a href="/video/{{ videoId }}" download>Download</a></p>
 

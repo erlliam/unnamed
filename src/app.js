@@ -40,19 +40,19 @@ function createApp() {
   );
 
   if (process.env.NODE_ENV === "production") {
-    app.enable('trust proxy');
+    app.enable("trust proxy");
     app.use((req, res, next) => {
       if (req.secure) {
         next();
       } else {
         // note: I think that req.get("host") returns the port number while req.hostname doesn't.
         // It shouldn't matter... at least for my use case...
-        res.redirect(301, 'https://' + req.hostname + req.url);
+        res.redirect(301, "https://" + req.hostname + req.url);
       }
     });
     app.use((req, res, next) => {
       res.set({
-        "Strict-Transport-Security": "max-age=63072000"
+        "Strict-Transport-Security": "max-age=63072000",
       });
       next();
     });

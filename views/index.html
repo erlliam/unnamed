@@ -1,42 +1,40 @@
-{% extends "base.html" %}
-
-{% block headExtras %}
+{% extends "base.html" %} {% block headExtras %}
 <script>
-document.addEventListener('DOMContentLoaded', () => {
-  let dragPopup = document.getElementById('drag-popup');
-  let videoInput = document.getElementById('video-input');
+  document.addEventListener("DOMContentLoaded", () => {
+    let dragPopup = document.getElementById("drag-popup");
+    let videoInput = document.getElementById("video-input");
 
-  function overrideBodyEvent(eventName, callback) {
-    document.body.addEventListener(eventName, (event) => {
-      event.preventDefault();
-      if (callback) {
-        callback(event);
+    function overrideBodyEvent(eventName, callback) {
+      document.body.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        if (callback) {
+          callback(event);
+        }
+      });
+    }
+
+    function openDragPopup() {
+      dragPopup.classList.remove("hidden");
+    }
+
+    function closeDragPopup() {
+      dragPopup.classList.add("hidden");
+    }
+
+    overrideBodyEvent("dragover");
+    overrideBodyEvent("dragenter", openDragPopup);
+    overrideBodyEvent("dragleave", (event) => {
+      // If event.relatedTarget is null, the user has dragged the file out of the browser or cancelled the drag
+      if (event.relatedTarget === null) {
+        closeDragPopup();
       }
     });
-  }
-
-  function openDragPopup() {
-    dragPopup.classList.remove('hidden');
-  }
-
-  function closeDragPopup() {
-    dragPopup.classList.add('hidden');
-  }
-
-  overrideBodyEvent('dragover');
-  overrideBodyEvent('dragenter', openDragPopup);
-  overrideBodyEvent('dragleave', (event) => {
-    // If event.relatedTarget is null, the user has dragged the file out of the browser or cancelled the drag
-    if (event.relatedTarget === null) {
+    overrideBodyEvent("drop", (event) => {
+      // todo: Don't let users drop more than one file
+      videoInput.files = event.dataTransfer.files;
       closeDragPopup();
-    }
+    });
   });
-  overrideBodyEvent('drop', (event) => {
-    // todo: Don't let users drop more than one file
-    videoInput.files = event.dataTransfer.files;
-    closeDragPopup();
-  });
-});
 </script>
 <style>
   form button {
@@ -49,8 +47,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
   #drag-popup {
     position: fixed;
-    top:0;
-    left:0;
+    top: 0;
+    left: 0;
     width: 100vw;
     height: 100vh;
     background-color: rgba(0, 0, 0, 0.75);
@@ -65,9 +63,7 @@ document.addEventListener('DOMContentLoaded', () => {
     display: none !important;
   }
 </style>
-{% endblock %}
-
-{% block main %}
+{% endblock %} {% block main %}
 <div id="drag-popup" class="hidden">
   <section>Drop anywhere to select file</section>
 </div>
@@ -115,6 +111,4 @@ document.addEventListener('DOMContentLoaded', () => {
     {% endfor %}
   </ul>
 </section>
-{% endif %}
-
-{% endblock %}
+{% endif %} {% endblock %}

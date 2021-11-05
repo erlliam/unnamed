@@ -15,7 +15,7 @@ router.get("/:videoId", async (req, res, next) => {
         url: getSiteUrl(req),
         videoId: videoId,
         requesterOwnsVideo: requesterOwnsVideo(req, videoId),
-        expirationTimestamp: calculateExpirationTimestamp(getVideo(videoId))
+        expirationTimestamp: calculateExpirationTimestamp(getVideo(videoId)),
       });
     } else {
       next();
