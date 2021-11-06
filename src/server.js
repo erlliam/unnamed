@@ -7,4 +7,7 @@ fs.mkdirSync(formidableUploadDirectory, { recursive: true });
 scheduleVideosForDeletion();
 
 let app = createApp();
-let server = app.listen(port ?? 8001);
+
+const server = app.listen(port, () => {
+  console.log(`Listening at -> http://localhost:${server.address().port}`);
+});
