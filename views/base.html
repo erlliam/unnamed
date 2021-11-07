@@ -2,71 +2,20 @@
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <style>
-      :root {
-        font-family: sans-serif;
-      }
-
-      a {
-        color: #6c83ff;
-      }
-
-      body {
-        margin: 0;
-        background-color: #f9f9f9;
-        min-height: 100vh; /* needed for drag and drop hitbox*/
-      }
-
-      header {
-        padding: 0.25rem 0;
-        text-align: center;
-        background-color: #ffffff;
-        border-bottom: 1px solid #eeeeee;
-      }
-
-      header h1,
-      header p {
-        margin: 0;
-      }
-
-      header p {
-        font-size: 0.8rem;
-      }
-
-      main {
-        margin: auto;
-        max-width: 42rem;
-      }
-
-      section {
-        margin: 1rem 0;
-        padding: 1rem;
-        background-color: #ffffff;
-        border: 1px solid #eeeeee;
-      }
-
-      section h2:first-of-type {
-        margin-top: 0;
-      }
-
-      footer {
-        max-width: 20rem;
-        margin: 1rem auto;
-        border-top: 1px solid #eeeeee;
-        text-align: center;
-        font-size: 0.8rem;
-      }
-
-      footer p {
-        margin: 0.5rem 0;
-      }
-    </style>
+    <link rel="stylesheet" href="base.css" />
     {% block headExtras %}{% endblock %}
   </head>
   <body>
     <header>
       <h1><a href="/">{{ instanceName }}</a></h1>
       <p>Share videos that expire.</p>
+      <div>
+        <p>Dark mode</p>
+        <label class="switch">
+          <input type="checkbox" id="togglebutton" />
+          <span class="slider round"></span>
+        </label>
+      </div>
     </header>
     <main>{% block main %}{% endblock %}</main>
     <footer>
@@ -81,4 +30,5 @@
       </p>
     </footer>
   </body>
+  <script src="theme.js"></script>
 </html>

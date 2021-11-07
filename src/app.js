@@ -63,6 +63,8 @@ function createApp() {
     res.render("index.html", { videos: videos });
   });
 
+  // Load static file
+  app.use(express.static("static"));
   app.use(uploadRouter);
   app.use(videoRouter);
 

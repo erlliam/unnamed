@@ -38,12 +38,10 @@ router.post("/upload", async (req, res, next) => {
       cleanUpVideo(videoPath);
       videoPath = videoPathAsMp4;
       if (!conversionSucceeded) {
-        res
-          .status(400)
-          .render("text.html", {
-            heading: "Error",
-            texts: ["Failed to convert video to MP4."],
-          });
+        res.status(400).render("text.html", {
+          heading: "Error",
+          texts: ["Failed to convert video to MP4."],
+        });
         return;
       }
       expirationMinutes = parseInt(expirationMinutes, 10);
