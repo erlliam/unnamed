@@ -120,3 +120,7 @@ body.dark-theme header {
 body.dark-theme section {
   background-color: black;
 }
+
+body.dark-theme .slider::before {
+  background-color: black;
+}
