@@ -1,0 +1,11 @@
+{
+  "instanceName": "unnamed",
+  "videoDirectory": "/home/mint/Videos/unnamed",
+  "ffprobePath": "/usr/bin/ffprobe",
+  "ffmpegPath": "/usr/bin/ffmpeg",
+  "databasePath": "/home/mint/Projects/unnamed/unnamed.db",
+  "expressSessionStoreSecret": "changeme",
+  "port": 8001,
+  "formidableUploadDirectory": "/tmp/unnamed",
+  "formidableMaxFileMebibytes": 100
+}
