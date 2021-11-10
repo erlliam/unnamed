@@ -1,2 +1,6 @@
 node_modules/
 config.json
+
+videos/
+videos-tmp/
+unnamed.db
